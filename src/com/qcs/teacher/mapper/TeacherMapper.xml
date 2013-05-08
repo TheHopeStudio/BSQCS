@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qcs.teacher.mapper.TeacherMapper">
+  <!--连表查询结果集和子结果集-->
+  <resultMap id="teacherJoinResultMap" type="Teacher">
+    <id property="id" column="ti_id"/>
+    <result property="userId" column="ti_user_id"/>
+    <result property="teacherNo" column="ti_teacher_no"/>
+    <result property="email" column="ti_email"/>
+    <result property="name" column="ti_name"/>
+    <result property="gender" column="ti_gender"/>
+    <result property="birthDate" column="ti_birth_date"/>
+    <result property="department" column="ti_department"/>
+    <result property="education" column="ti_education"/>
+    <result property="degree" column="ti_degree"/>
+    <result property="job" column="ti_job"/>
+    <result property="jobTitle" column="ti_job_title"/>
+    <result property="major" column="ti_major"/>
+    <result property="graduated" column="ti_graduated"/>
+    <result property="teacherCert" column="ti_teacher_cert"/>
+    <result property="remark" column="ti_remark"/>
+    <association property="user" column="{ti_user_id}" javaType="User" resultMap="userSubResultMap"/>
+    <association property="refJob" column="{ti_job}" javaType="Job" resultMap="jobSubResultMap"/>
+    <collection property="questions" column="{ti_id}" ofType="Question" resultMap="questionSubResultMap"/>
+  </resultMap>
+  <resultMap id="userSubResultMap" type="User">
+    <id property="id" column="ui_id"/>
+    <result property="username" column="ui_username"/>
+    <result property="password" column="ui_password"/>
+    <result property="state" column="ui_state"/>
+    <result property="type" column="ui_type"/>
+  </resultMap>
+  <resultMap id="jobSubResultMap" type="Job">
+    <id property="id" column="j_id"/>
+    <result property="job" column="j_job"/>
+    <result property="questionNum" column="j_question_num"/>
+  </resultMap>
+  <resultMap id="questionSubResultMap" type="Question">
+    <id property="id" column="q_id"/>
+    <result property="teacherInfoId" column="q_teacher_info_id"/>
+    <result property="title" column="q_title"/>
+    <result property="content" column="q_content"/>
+    <result property="remark" column="q_remark"/>
+    <result property="state" column="q_state"/>
+  </resultMap>
+  <!--连表查询动态sql语句-->
+  <select id="joinSelectTeacher" parameterType="Teacher" resultMap="teacherJoinResultMap"><![CDATA[select ti.id as ti_id,ti.user_id as ti_user_id,ti.teacher_no as ti_teacher_no,ti.email as ti_email,ti.name as ti_name,ti.gender as ti_gender,ti.birth_date as ti_birth_date,ti.department as ti_department,ti.education as ti_education,ti.degree as ti_degree,ti.job as ti_job,ti.job_title as ti_job_title,ti.major as ti_major,ti.graduated as ti_graduated,ti.teacher_cert as ti_teacher_cert,ti.remark as ti_remark,ui.id as ui_id,ui.username as ui_username,ui.password as ui_password,ui.state as ui_state,ui.type as ui_type,j.id as j_id,j.job as j_job,j.question_num as j_question_num,q.id as q_id,q.teacher_info_id as q_teacher_info_id,q.title as q_title,q.content as q_content,q.remark as q_remark,q.state as q_state from teacher_info ti left join user_info ui on ti.user_id = ui.id  left join job j on ti.job = j.job  left join question q on ti.id = q.teacher_id ]]>
+    <trim prefix="where" prefixOverrides="and |or">
+      <if test="id != null"><![CDATA[and ti.id = #{id} ]]></if>
+      <if test="userId != null"><![CDATA[and ti.user_id = #{userId} ]]></if>
+      <if test="teacherNo != null"><![CDATA[and ti.teacher_no = #{teacherNo} ]]></if>
+      <if test="email != null"><![CDATA[and ti.email = #{email} ]]></if>
+      <if test="name != null"><![CDATA[and ti.name = #{name} ]]></if>
+      <if test="gender != null"><![CDATA[and ti.gender = #{gender} ]]></if>
+      <if test="birthDate != null"><![CDATA[and ti.birth_date = #{birthDate} ]]></if>
+      <if test="department != null"><![CDATA[and ti.department = #{department} ]]></if>
+      <if test="education != null"><![CDATA[and ti.education = #{education} ]]></if>
+      <if test="degree != null"><![CDATA[and ti.degree = #{degree} ]]></if>
+      <if test="job != null"><![CDATA[and ti.job = #{job} ]]></if>
+      <if test="jobTitle != null"><![CDATA[and ti.job_title = #{jobTitle} ]]></if>
+      <if test="major != null"><![CDATA[and ti.major = #{major} ]]></if>
+      <if test="graduated != null"><![CDATA[and ti.graduated = #{graduated} ]]></if>
+      <if test="teacherCert != null"><![CDATA[and ti.teacher_cert = #{teacherCert} ]]></if>
+      <if test="remark != null"><![CDATA[and ti.remark = #{remark} ]]></if>
+    </trim>
+  </select>
+  <!--嵌套查询(子查询)结果集和子查询-->
+  <resultMap id="teacherNestedResultMap" type="Teacher">
+    <id property="id" column="id"/>
+    <result property="userId" column="user_id"/>
+    <result property="teacherNo" column="teacher_no"/>
+    <result property="email" column="email"/>
+    <result property="name" column="name"/>
+    <result property="gender" column="gender"/>
+    <result property="birthDate" column="birth_date"/>
+    <result property="department" column="department"/>
+    <result property="education" column="education"/>
+    <result property="degree" column="degree"/>
+    <result property="job" column="job"/>
+    <result property="jobTitle" column="job_title"/>
+    <result property="major" column="major"/>
+    <result property="graduated" column="graduated"/>
+    <result property="teacherCert" column="teacher_cert"/>
+    <result property="remark" column="remark"/>
+    <association property="user" column="{userId=user_id}" javaType="User" select="userSubSelect"/>
+    <association property="refJob" column="{job=job}" javaType="Job" select="jobSubSelect"/>
+    <collection property="questions" column="{id=id}" ofType="Question" select="questionSubSelect"/>
+  </resultMap>
+  <select id="userSubSelect" parameterType="HashMap" resultMap="com.qcs.user.mapper.UserMapper.userNestedResultMap"><![CDATA[select ui.id,ui.username,ui.password,ui.state,ui.type from user_info ui where ui.id = #{userId}]]></select>
+  <select id="jobSubSelect" parameterType="HashMap" resultMap="com.qcs.job.mapper.JobMapper.jobNestedResultMap"><![CDATA[select j.id,j.job,j.question_num from job j where j.job = #{job}]]></select>
+  <select id="questionSubSelect" parameterType="HashMap" resultMap="com.qcs.question.mapper.QuestionMapper.questionNestedResultMap"><![CDATA[select q.id,q.teacher_info_id,q.title,q.content,q.remark,q.state from question q where q.teacher_id = #{id}]]></select>
+  <!--嵌套查询动态sql语句-->
+  <select id="nestedSelectTeacher" parameterType="Teacher" resultMap="teacherNestedResultMap"><![CDATA[select ti.id,ti.user_id,ti.teacher_no,ti.email,ti.name,ti.gender,ti.birth_date,ti.department,ti.education,ti.degree,ti.job,ti.job_title,ti.major,ti.graduated,ti.teacher_cert,ti.remark from teacher_info ti ]]>
+    <trim prefix="where" prefixOverrides="and |or">
+      <if test="id != null"><![CDATA[and ti.id = #{id} ]]></if>
+      <if test="userId != null"><![CDATA[and ti.user_id = #{userId} ]]></if>
+      <if test="teacherNo != null"><![CDATA[and ti.teacher_no = #{teacherNo} ]]></if>
+      <if test="email != null"><![CDATA[and ti.email = #{email} ]]></if>
+      <if test="name != null"><![CDATA[and ti.name = #{name} ]]></if>
+      <if test="gender != null"><![CDATA[and ti.gender = #{gender} ]]></if>
+      <if test="birthDate != null"><![CDATA[and ti.birth_date = #{birthDate} ]]></if>
+      <if test="department != null"><![CDATA[and ti.department = #{department} ]]></if>
+      <if test="education != null"><![CDATA[and ti.education = #{education} ]]></if>
+      <if test="degree != null"><![CDATA[and ti.degree = #{degree} ]]></if>
+      <if test="job != null"><![CDATA[and ti.job = #{job} ]]></if>
+      <if test="jobTitle != null"><![CDATA[and ti.job_title = #{jobTitle} ]]></if>
+      <if test="major != null"><![CDATA[and ti.major = #{major} ]]></if>
+      <if test="graduated != null"><![CDATA[and ti.graduated = #{graduated} ]]></if>
+      <if test="teacherCert != null"><![CDATA[and ti.teacher_cert = #{teacherCert} ]]></if>
+      <if test="remark != null"><![CDATA[and ti.remark = #{remark} ]]></if>
+    </trim>
+  </select>
+  <!--插入动态sql语句-->
+  <insert id="insertTeacher" parameterType="Teacher" flushCache="true" useGeneratedKeys="true" keyProperty="id"><![CDATA[insert into teacher_info ]]>
+    <trim prefix="(" suffix=")" prefixOverrides=",">
+      <if test="id != null"><![CDATA[,id]]></if>
+      <if test="userId != null"><![CDATA[,user_id]]></if>
+      <if test="teacherNo != null"><![CDATA[,teacher_no]]></if>
+      <if test="email != null"><![CDATA[,email]]></if>
+      <if test="name != null"><![CDATA[,name]]></if>
+      <if test="gender != null"><![CDATA[,gender]]></if>
+      <if test="birthDate != null"><![CDATA[,birth_date]]></if>
+      <if test="department != null"><![CDATA[,department]]></if>
+      <if test="education != null"><![CDATA[,education]]></if>
+      <if test="degree != null"><![CDATA[,degree]]></if>
+      <if test="job != null"><![CDATA[,job]]></if>
+      <if test="jobTitle != null"><![CDATA[,job_title]]></if>
+      <if test="major != null"><![CDATA[,major]]></if>
+      <if test="graduated != null"><![CDATA[,graduated]]></if>
+      <if test="teacherCert != null"><![CDATA[,teacher_cert]]></if>
+      <if test="remark != null"><![CDATA[,remark]]></if>
+    </trim>
+    <trim prefix="values(" suffix=")" prefixOverrides=",">
+      <if test="id != null"><![CDATA[,#{id}]]></if>
+      <if test="userId != null"><![CDATA[,#{userId}]]></if>
+      <if test="teacherNo != null"><![CDATA[,#{teacherNo}]]></if>
+      <if test="email != null"><![CDATA[,#{email}]]></if>
+      <if test="name != null"><![CDATA[,#{name}]]></if>
+      <if test="gender != null"><![CDATA[,#{gender}]]></if>
+      <if test="birthDate != null"><![CDATA[,#{birthDate}]]></if>
+      <if test="department != null"><![CDATA[,#{department}]]></if>
+      <if test="education != null"><![CDATA[,#{education}]]></if>
+      <if test="degree != null"><![CDATA[,#{degree}]]></if>
+      <if test="job != null"><![CDATA[,#{job}]]></if>
+      <if test="jobTitle != null"><![CDATA[,#{jobTitle}]]></if>
+      <if test="major != null"><![CDATA[,#{major}]]></if>
+      <if test="graduated != null"><![CDATA[,#{graduated}]]></if>
+      <if test="teacherCert != null"><![CDATA[,#{teacherCert}]]></if>
+      <if test="remark != null"><![CDATA[,#{remark}]]></if>
+    </trim>
+  </insert>
+  <!--更新动态sql语句-->
+  <update id="updateTeacher" parameterType="Teacher" flushCache="true"><![CDATA[update teacher_info ]]>
+    <set>
+      <if test="userId != null"><![CDATA[user_id=#{userId},]]></if>
+      <if test="teacherNo != null"><![CDATA[teacher_no=#{teacherNo},]]></if>
+      <if test="email != null"><![CDATA[email=#{email},]]></if>
+      <if test="name != null"><![CDATA[name=#{name},]]></if>
+      <if test="gender != null"><![CDATA[gender=#{gender},]]></if>
+      <if test="birthDate != null"><![CDATA[birth_date=#{birthDate},]]></if>
+      <if test="department != null"><![CDATA[department=#{department},]]></if>
+      <if test="education != null"><![CDATA[education=#{education},]]></if>
+      <if test="degree != null"><![CDATA[degree=#{degree},]]></if>
+      <if test="job != null"><![CDATA[job=#{job},]]></if>
+      <if test="jobTitle != null"><![CDATA[job_title=#{jobTitle},]]></if>
+      <if test="major != null"><![CDATA[major=#{major},]]></if>
+      <if test="graduated != null"><![CDATA[graduated=#{graduated},]]></if>
+      <if test="teacherCert != null"><![CDATA[teacher_cert=#{teacherCert},]]></if>
+      <if test="remark != null"><![CDATA[remark=#{remark},]]></if>
+    </set><![CDATA[where id = #{id}]]>
+  </update>
+  <!--删除动态sql语句-->
+  <delete id="deleteTeacher" parameterType="Teacher" flushCache="true"><![CDATA[delete from teacher_info ]]>
+    <where>
+      <choose>
+        <when test="id != null"><![CDATA[and id = #{id}]]></when>
+        <otherwise>
+          <if test="userId != null"><![CDATA[and user_id = #{userId}]]></if>
+          <if test="teacherNo != null"><![CDATA[and teacher_no = #{teacherNo}]]></if>
+          <if test="email != null"><![CDATA[and email = #{email}]]></if>
+          <if test="name != null"><![CDATA[and name = #{name}]]></if>
+          <if test="gender != null"><![CDATA[and gender = #{gender}]]></if>
+          <if test="birthDate != null"><![CDATA[and birth_date = #{birthDate}]]></if>
+          <if test="department != null"><![CDATA[and department = #{department}]]></if>
+          <if test="education != null"><![CDATA[and education = #{education}]]></if>
+          <if test="degree != null"><![CDATA[and degree = #{degree}]]></if>
+          <if test="job != null"><![CDATA[and job = #{job}]]></if>
+          <if test="jobTitle != null"><![CDATA[and job_title = #{jobTitle}]]></if>
+          <if test="major != null"><![CDATA[and major = #{major}]]></if>
+          <if test="graduated != null"><![CDATA[and graduated = #{graduated}]]></if>
+          <if test="teacherCert != null"><![CDATA[and teacher_cert = #{teacherCert}]]></if>
+          <if test="remark != null"><![CDATA[and remark = #{remark}]]></if>
+        </otherwise>
+      </choose>
+    </where>
+  </delete>
+</mapper>

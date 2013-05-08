@@ -1,0 +1,6 @@
+#accept to visit without login
+/QCS/index.jsp
+/QCS/login.jsp
+/QCS/register.jsp
+/QCS/user/regist.do
+/QCS/user/login.do

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qcs.student.mapper.StudentMapper">
+  <!--连表查询结果集和子结果集-->
+  <resultMap id="studentJoinResultMap" type="Student">
+    <id property="id" column="si_id"/>
+    <result property="userId" column="si_user_id"/>
+    <result property="studentNo" column="si_student_no"/>
+    <result property="email" column="si_email"/>
+    <association property="user" column="{si_user_id}" javaType="User" resultMap="userSubResultMap"/>
+    <collection property="questions" column="{si_id}" ofType="Question" resultMap="questionSubResultMap"/>
+  </resultMap>
+  <resultMap id="userSubResultMap" type="User">
+    <id property="id" column="ui_id"/>
+    <result property="username" column="ui_username"/>
+    <result property="password" column="ui_password"/>
+    <result property="state" column="ui_state"/>
+    <result property="type" column="ui_type"/>
+  </resultMap>
+  <resultMap id="questionSubResultMap" type="Question">
+    <id property="id" column="q_1_id"/>
+    <result property="teacherInfoId" column="q_1_teacher_info_id"/>
+    <result property="title" column="q_1_title"/>
+    <result property="content" column="q_1_content"/>
+    <result property="remark" column="q_1_remark"/>
+    <result property="state" column="q_1_state"/>
+  </resultMap>
+  <!--连表查询动态sql语句-->
+  <select id="joinSelectStudent" parameterType="Student" resultMap="studentJoinResultMap"><![CDATA[select si.id as si_id,si.user_id as si_user_id,si.student_no as si_student_no,si.email as si_email,ui.id as ui_id,ui.username as ui_username,ui.password as ui_password,ui.state as ui_state,ui.type as ui_type,q_1.id as q_1_id,q_1.teacher_info_id as q_1_teacher_info_id,q_1.title as q_1_title,q_1.content as q_1_content,q_1.remark as q_1_remark,q_1.state as q_1_state from student_info si left join user_info ui on si.user_id = ui.id  left join student_question q on si.id = q.student_id left join question q_1 on q.question_id = q_1.id]]>
+    <trim prefix="where" prefixOverrides="and |or">
+      <if test="id != null"><![CDATA[and si.id = #{id} ]]></if>
+      <if test="userId != null"><![CDATA[and si.user_id = #{userId} ]]></if>
+      <if test="studentNo != null"><![CDATA[and si.student_no = #{studentNo} ]]></if>
+      <if test="email != null"><![CDATA[and si.email = #{email} ]]></if>
+    </trim>
+  </select>
+  <!--嵌套查询(子查询)结果集和子查询-->
+  <resultMap id="studentNestedResultMap" type="Student">
+    <id property="id" column="id"/>
+    <result property="userId" column="user_id"/>
+    <result property="studentNo" column="student_no"/>
+    <result property="email" column="email"/>
+    <association property="user" column="{userId=user_id}" javaType="User" select="userSubSelect"/>
+    <collection property="questions" column="{id=id}" ofType="Question" select="questionSubSelect"/>
+  </resultMap>
+  <select id="userSubSelect" parameterType="HashMap" resultMap="com.qcs.user.mapper.UserMapper.userNestedResultMap"><![CDATA[select ui.id,ui.username,ui.password,ui.state,ui.type from user_info ui where ui.id = #{userId}]]></select>
+  <select id="questionSubSelect" parameterType="HashMap" resultMap="com.qcs.question.mapper.QuestionMapper.questionNestedResultMap"><![CDATA[select q.id,q.teacher_info_id,q.title,q.content,q.remark,q.state from question q,student_question sq where q.id = sq.question_id and q.student_id = #{id}]]></select>
+  <!--嵌套查询动态sql语句-->
+  <select id="nestedSelectStudent" parameterType="Student" resultMap="studentNestedResultMap"><![CDATA[select si.id,si.user_id,si.student_no,si.email from student_info si ]]>
+    <trim prefix="where" prefixOverrides="and |or">
+      <if test="id != null"><![CDATA[and si.id = #{id} ]]></if>
+      <if test="userId != null"><![CDATA[and si.user_id = #{userId} ]]></if>
+      <if test="studentNo != null"><![CDATA[and si.student_no = #{studentNo} ]]></if>
+      <if test="email != null"><![CDATA[and si.email = #{email} ]]></if>
+    </trim>
+  </select>
+  <!--插入动态sql语句-->
+  <insert id="insertStudent" parameterType="Student" flushCache="true" useGeneratedKeys="true" keyProperty="id"><![CDATA[insert into student_info ]]>
+    <trim prefix="(" suffix=")" prefixOverrides=",">
+      <if test="id != null"><![CDATA[,id]]></if>
+      <if test="userId != null"><![CDATA[,user_id]]></if>
+      <if test="studentNo != null"><![CDATA[,student_no]]></if>
+      <if test="email != null"><![CDATA[,email]]></if>
+    </trim>
+    <trim prefix="values(" suffix=")" prefixOverrides=",">
+      <if test="id != null"><![CDATA[,#{id}]]></if>
+      <if test="userId != null"><![CDATA[,#{userId}]]></if>
+      <if test="studentNo != null"><![CDATA[,#{studentNo}]]></if>
+      <if test="email != null"><![CDATA[,#{email}]]></if>
+    </trim>
+  </insert>
+  <!--更新动态sql语句-->
+  <update id="updateStudent" parameterType="Student" flushCache="true"><![CDATA[update student_info ]]>
+    <set>
+      <if test="userId != null"><![CDATA[user_id=#{userId},]]></if>
+      <if test="studentNo != null"><![CDATA[student_no=#{studentNo},]]></if>
+      <if test="email != null"><![CDATA[email=#{email},]]></if>
+    </set><![CDATA[where id = #{id}]]>
+  </update>
+  <!--删除动态sql语句-->
+  <delete id="deleteStudent" parameterType="Student" flushCache="true"><![CDATA[delete from student_info ]]>
+    <where>
+      <choose>
+        <when test="id != null"><![CDATA[and id = #{id}]]></when>
+        <otherwise>
+          <if test="userId != null"><![CDATA[and user_id = #{userId}]]></if>
+          <if test="studentNo != null"><![CDATA[and student_no = #{studentNo}]]></if>
+          <if test="email != null"><![CDATA[and email = #{email}]]></if>
+        </otherwise>
+      </choose>
+    </where>
+  </delete>
+</mapper>

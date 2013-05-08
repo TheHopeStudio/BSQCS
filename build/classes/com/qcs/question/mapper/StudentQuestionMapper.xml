@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qcs.question.mapper.StudentQuestionMapper">
+  <!--嵌套查询(子查询)结果集和子查询-->
+  <resultMap id="studentQuestionNestedResultMap" type="StudentQuestion">
+    <id property="questionId" column="question_id"/>
+    <id property="studentId" column="student_id"/>
+  </resultMap>
+  <!--嵌套查询动态sql语句-->
+  <select id="nestedSelectStudentQuestion" parameterType="StudentQuestion" resultMap="studentQuestionNestedResultMap"><![CDATA[select sq.question_id,sq.student_id from student_question sq ]]>
+    <trim prefix="where" prefixOverrides="and |or">
+      <if test="questionId != null"><![CDATA[and sq.question_id = #{questionId} ]]></if>
+      <if test="studentId != null"><![CDATA[and sq.student_id = #{studentId} ]]></if>
+    </trim>
+  </select>
+  <!--插入动态sql语句-->
+  <insert id="insertStudentQuestion" parameterType="StudentQuestion" flushCache="true" useGeneratedKeys="true" keyProperty="question_id"><![CDATA[insert into student_question ]]>
+    <trim prefix="(" suffix=")" prefixOverrides=",">
+      <if test="questionId != null"><![CDATA[,question_id]]></if>
+      <if test="studentId != null"><![CDATA[,student_id]]></if>
+    </trim>
+    <trim prefix="values(" suffix=")" prefixOverrides=",">
+      <if test="questionId != null"><![CDATA[,#{questionId}]]></if>
+      <if test="studentId != null"><![CDATA[,#{studentId}]]></if>
+    </trim>
+  </insert>
+  <!--更新动态sql语句-->
+  <update id="updateStudentQuestion" parameterType="StudentQuestion" flushCache="true"><![CDATA[update student_question ]]>
+    <set>
+      <if test="studentId != null"><![CDATA[student_id=#{studentId},]]></if>
+    </set><![CDATA[where question_id = #{questionId}]]>
+  </update>
+  <!--删除动态sql语句-->
+  <delete id="deleteStudentQuestion" parameterType="StudentQuestion" flushCache="true"><![CDATA[delete from student_question ]]>
+    <where>
+      <choose>
+        <when test="questionId != null"><![CDATA[and question_id = #{questionId}]]></when>
+        <otherwise>
+          <if test="studentId != null"><![CDATA[and student_id = #{studentId}]]></if>
+        </otherwise>
+      </choose>
+    </where>
+  </delete>
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+  <!--the database connection properties-->
+  <properties>
+    <!--写数据库类型。。支持mysql，oracle-->
+    <property name="dialect" value="mysql"/>
+  </properties>
+  <!--mybatis default settings-->
+  <settings>
+    <setting name="cacheEnabled" value="true"/>
+    <setting name="lazyLoadingEnabled" value="true"/>
+    <setting name="aggressiveLazyLoading" value="false"/>
+    <setting name="useGeneratedKeys" value="true"/>
+    <setting name="autoMappingBehavior" value="FULL"/>
+  </settings>
+  <!--type aliases-->
+  <typeAliases>
+    <typeAlias alias="User" type="com.qcs.user.pojo.User"/>
+    <typeAlias alias="Teacher" type="com.qcs.teacher.pojo.Teacher"/>
+    <typeAlias alias="Job" type="com.qcs.job.pojo.Job"/>
+    <typeAlias alias="Question" type="com.qcs.question.pojo.Question"/>
+    <typeAlias alias="Student" type="com.qcs.student.pojo.Student"/>
+    <typeAlias alias="StudentQuestion" type="com.qcs.question.pojo.StudentQuestion"/>
+    <typeAlias alias="Menu" type="com.qcs.menu.pojo.Menu"/>
+  </typeAliases>
+  <!--plugins-->
+  <plugins>
+    <plugin interceptor="com.qcs.base.pagination.PaginationInterceptor"/>
+  </plugins>
+  <!--mappers-->
+  <mappers>
+    <mapper resource="com/qcs/user/mapper/UserMapper.xml"/>
+    <mapper resource="com/qcs/teacher/mapper/TeacherMapper.xml"/>
+    <mapper resource="com/qcs/job/mapper/JobMapper.xml"/>
+    <mapper resource="com/qcs/question/mapper/QuestionMapper.xml"/>
+    <mapper resource="com/qcs/student/mapper/StudentMapper.xml"/>
+    <mapper resource="com/qcs/question/mapper/StudentQuestionMapper.xml"/>
+    <mapper resource="com/qcs/menu/mapper/MenuMapper.xml"/>
+  </mappers>
+</configuration>
