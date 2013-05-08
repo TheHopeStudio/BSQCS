@@ -1,10 +1,12 @@
 package com.qcs.job.dao;
 
-import com.qcs.job.pojo.Job;
 import java.util.List;
-import com.qcs.base.pagination.PaginationResult;
+
+import org.springframework.dao.DataAccessException;
+
 import com.qcs.base.pagination.PaginationInfo;
-import com.qcs.base.pagination.PaginationContext;
+import com.qcs.base.pagination.PaginationResult;
+import com.qcs.job.pojo.Job;
 
 /**
  *
@@ -23,7 +25,7 @@ public interface JobDao{
 	 * @param job
 	 * @return int
 	 */
-	public int add(Job job);
+	public int add(Job job) throws DataAccessException;
 
 	/**
 	 *
@@ -32,7 +34,7 @@ public interface JobDao{
 	 * @param job
 	 * @return int
 	 */
-	public int delete(Job job);
+	public int delete(Job job) throws DataAccessException;
 
 	/**
 	 *
@@ -41,7 +43,7 @@ public interface JobDao{
 	 * @param job
 	 * @return int
 	 */
-	public int update(Job job);
+	public int update(Job job) throws DataAccessException;
 
 	/**
 	 *
@@ -50,7 +52,7 @@ public interface JobDao{
 	 * @param job
 	 * @return List<Job>
 	 */
-	public List<Job> query(Job job);
+	public List<Job> query(Job job) throws DataAccessException;
 
 	/**
 	 *
@@ -60,6 +62,6 @@ public interface JobDao{
 	 * @param pageInfo
 	 * @return PaginationResult<Job>
 	 */
-	public PaginationResult<Job> query(Job job,PaginationInfo pageInfo);
+	public PaginationResult<Job> query(Job job,PaginationInfo pageInfo) throws DataAccessException;
 
 }

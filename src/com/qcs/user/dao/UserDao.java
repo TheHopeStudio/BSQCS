@@ -3,6 +3,8 @@ package com.qcs.user.dao;
 import com.qcs.user.pojo.User;
 import java.util.List;
 
+import org.springframework.dao.DataAccessException;
+
 import com.qcs.base.pagination.PaginationResult;
 import com.qcs.base.pagination.PaginationInfo;
 import com.qcs.base.pagination.PaginationContext;
@@ -24,7 +26,7 @@ public interface UserDao{
 	 * @param user
 	 * @return int
 	 */
-	public int add(User user);
+	public int add(User user) throws DataAccessException;
 
 	/**
 	 *
@@ -33,7 +35,7 @@ public interface UserDao{
 	 * @param user
 	 * @return int
 	 */
-	public int delete(User user);
+	public int delete(User user) throws DataAccessException;
 
 	/**
 	 *
@@ -42,7 +44,7 @@ public interface UserDao{
 	 * @param user
 	 * @return int
 	 */
-	public int update(User user);
+	public int update(User user) throws DataAccessException;
 
 	/**
 	 *
@@ -51,7 +53,7 @@ public interface UserDao{
 	 * @param user
 	 * @return List<User>
 	 */
-	public List<User> query(User user);
+	public List<User> query(User user) throws DataAccessException;
 
 	/**
 	 *
@@ -61,6 +63,6 @@ public interface UserDao{
 	 * @param pageInfo
 	 * @return PaginationResult<User>
 	 */
-	public PaginationResult<User> query(User user,PaginationInfo pageInfo);
+	public PaginationResult<User> query(User user,PaginationInfo pageInfo) throws DataAccessException;
 
 }

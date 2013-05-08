@@ -2,6 +2,9 @@ package com.qcs.question.dao;
 
 import com.qcs.question.pojo.Question;
 import java.util.List;
+
+import org.springframework.dao.DataAccessException;
+
 import com.qcs.base.pagination.PaginationResult;
 import com.qcs.base.pagination.PaginationInfo;
 import com.qcs.base.pagination.PaginationContext;
@@ -23,7 +26,7 @@ public interface QuestionDao{
 	 * @param question
 	 * @return int
 	 */
-	public int add(Question question);
+	public int add(Question question) throws DataAccessException;
 
 	/**
 	 *
@@ -32,7 +35,7 @@ public interface QuestionDao{
 	 * @param question
 	 * @return int
 	 */
-	public int delete(Question question);
+	public int delete(Question question) throws DataAccessException;
 
 	/**
 	 *
@@ -41,7 +44,7 @@ public interface QuestionDao{
 	 * @param question
 	 * @return int
 	 */
-	public int update(Question question);
+	public int update(Question question) throws DataAccessException;
 
 	/**
 	 *
@@ -50,7 +53,7 @@ public interface QuestionDao{
 	 * @param question
 	 * @return List<Question>
 	 */
-	public List<Question> query(Question question);
+	public List<Question> query(Question question) throws DataAccessException;
 
 	/**
 	 *
@@ -60,6 +63,6 @@ public interface QuestionDao{
 	 * @param pageInfo
 	 * @return PaginationResult<Question>
 	 */
-	public PaginationResult<Question> query(Question question,PaginationInfo pageInfo);
+	public PaginationResult<Question> query(Question question,PaginationInfo pageInfo) throws DataAccessException;
 
 }

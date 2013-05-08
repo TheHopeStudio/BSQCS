@@ -4,6 +4,9 @@ import com.qcs.question.dao.StudentQuestionDao;
 import com.qcs.question.mapper.StudentQuestionMapper;
 import com.qcs.question.pojo.StudentQuestion;
 import java.util.List;
+
+import org.springframework.dao.DataAccessException;
+
 import com.qcs.base.pagination.PaginationResult;
 import com.qcs.base.pagination.PaginationInfo;
 import com.qcs.base.pagination.PaginationContext;
@@ -29,7 +32,7 @@ public class StudentQuestionDaoImpl implements StudentQuestionDao{
 	 * @param studentQuestion
 	 * @return int
 	 */
-	public int add(StudentQuestion studentQuestion){
+	public int add(StudentQuestion studentQuestion) throws DataAccessException{
 
 		return studentQuestionMapper.insertStudentQuestion(studentQuestion);
 
@@ -41,7 +44,7 @@ public class StudentQuestionDaoImpl implements StudentQuestionDao{
 	 * @param studentQuestion
 	 * @return int
 	 */
-	public int delete(StudentQuestion studentQuestion){
+	public int delete(StudentQuestion studentQuestion) throws DataAccessException{
 
 		return studentQuestionMapper.deleteStudentQuestion(studentQuestion);
 
@@ -53,7 +56,7 @@ public class StudentQuestionDaoImpl implements StudentQuestionDao{
 	 * @param studentQuestion
 	 * @return int
 	 */
-	public int update(StudentQuestion studentQuestion){
+	public int update(StudentQuestion studentQuestion) throws DataAccessException{
 
 		return studentQuestionMapper.updateStudentQuestion(studentQuestion);
 
@@ -65,7 +68,7 @@ public class StudentQuestionDaoImpl implements StudentQuestionDao{
 	 * @param studentQuestion
 	 * @return List<StudentQuestion>
 	 */
-	public List<StudentQuestion> query(StudentQuestion studentQuestion){
+	public List<StudentQuestion> query(StudentQuestion studentQuestion) throws DataAccessException{
 
 		return studentQuestionMapper.nestedSelectStudentQuestion(studentQuestion);
 
@@ -78,7 +81,7 @@ public class StudentQuestionDaoImpl implements StudentQuestionDao{
 	 * @param pageInfo
 	 * @return PaginationResult<StudentQuestion>
 	 */
-	public PaginationResult<StudentQuestion> query(StudentQuestion studentQuestion,PaginationInfo pageInfo){
+	public PaginationResult<StudentQuestion> query(StudentQuestion studentQuestion,PaginationInfo pageInfo) throws DataAccessException{
 
 		PaginationContext.set(pageInfo);
 		PaginationResult<StudentQuestion> pageResult = new PaginationResult<StudentQuestion>();

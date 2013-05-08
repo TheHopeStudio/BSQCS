@@ -1,12 +1,17 @@
 package com.qcs.job.dao.impl;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Repository;
+
+import com.qcs.base.pagination.PaginationContext;
+import com.qcs.base.pagination.PaginationInfo;
+import com.qcs.base.pagination.PaginationResult;
 import com.qcs.job.dao.JobDao;
 import com.qcs.job.mapper.JobMapper;
 import com.qcs.job.pojo.Job;
-import java.util.List;
-import com.qcs.base.pagination.PaginationResult;
-import com.qcs.base.pagination.PaginationInfo;
-import com.qcs.base.pagination.PaginationContext;
 
 /**
  *
@@ -15,11 +20,12 @@ import com.qcs.base.pagination.PaginationContext;
  * @date 2013-05-05 03:45:51
  *
  */
-
+@Repository
 public class JobDaoImpl implements JobDao{
 	/**
 	*	Job映射的mapper
 	*/
+	@Autowired
 	private JobMapper jobMapper;
 
 	/**
@@ -29,7 +35,7 @@ public class JobDaoImpl implements JobDao{
 	 * @param job
 	 * @return int
 	 */
-	public int add(Job job){
+	public int add(Job job) throws DataAccessException{
 
 		return jobMapper.insertJob(job);
 
@@ -41,7 +47,7 @@ public class JobDaoImpl implements JobDao{
 	 * @param job
 	 * @return int
 	 */
-	public int delete(Job job){
+	public int delete(Job job) throws DataAccessException{
 
 		return jobMapper.deleteJob(job);
 
@@ -53,7 +59,7 @@ public class JobDaoImpl implements JobDao{
 	 * @param job
 	 * @return int
 	 */
-	public int update(Job job){
+	public int update(Job job) throws DataAccessException{
 
 		return jobMapper.updateJob(job);
 
@@ -65,7 +71,7 @@ public class JobDaoImpl implements JobDao{
 	 * @param job
 	 * @return List<Job>
 	 */
-	public List<Job> query(Job job){
+	public List<Job> query(Job job) throws DataAccessException{
 
 		return jobMapper.nestedSelectJob(job);
 
@@ -78,7 +84,7 @@ public class JobDaoImpl implements JobDao{
 	 * @param pageInfo
 	 * @return PaginationResult<Job>
 	 */
-	public PaginationResult<Job> query(Job job,PaginationInfo pageInfo){
+	public PaginationResult<Job> query(Job job,PaginationInfo pageInfo) throws DataAccessException{
 
 		PaginationContext.set(pageInfo);
 		PaginationResult<Job> pageResult = new PaginationResult<Job>();

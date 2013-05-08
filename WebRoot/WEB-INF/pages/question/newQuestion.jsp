@@ -10,10 +10,6 @@
 <title>Question Choosing System</title>
 <meta name="description" content="Administry - Admin Template by www.865171.cn" />
 <meta name="keywords" content="Admin,Template" />
-<!-- We need to emulate IE7 only when we are to use excanvas -->
-<!--[if IE]>
-<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
-<![endif]-->
 <!-- Favicons --> 
 <link rel="shortcut icon" type="image/png" href="${ctx}/img/favicons/favicon.png"/>
 <link rel="icon" type="image/png" href="${ctx}/img/favicons/favicon.png"/>
@@ -35,15 +31,10 @@
 <!-- Superfish navigation -->
 <script type="text/javascript" src="${ctx}/js/jquery.superfish.min.js"></script>
 <script type="text/javascript" src="${ctx}/js/jquery.supersubs.min.js"></script>
-<!-- jQuery form validation -->
-<script type="text/javascript" src="${ctx}/js/jquery.validate_pack.js"></script>
 <!-- jQuery popup box -->
 <script type="text/javascript" src="${ctx}/js/jquery.nyroModal.pack.js"></script>
-<!-- jQuery graph plugins -->
-<!--[if IE]><script type="text/javascript" src="${ctx}/js/flot/excanvas.min.js"></script><![endif]-->
-<script type="text/javascript" src="${ctx}/js/flot/jquery.flot.min.js"></script>
-<!-- jQuery ajax fileupload -->
-<script type="text/javascript" src="${ctx}/js/ajaxfileupload.js"></script>
+<!-- jQuery form validation -->
+<script type="text/javascript" src="${ctx}/js/jquery.validate_pack.js"></script>
 <!-- Internet Explorer Fixes --> 
 <!--[if IE]>
 <link rel="stylesheet" type="text/css" media="all" href="${ctx}/css/ie.css"/>
@@ -53,31 +44,29 @@
 <!--[if lt IE 8]>
 <script src="${ctx}/js/IE8.js"></script>
 <![endif]-->
-
 <script type="text/javascript">
-
 $(document).ready(function(){
 	
 	/* setup navigation, content boxes, etc... */
 	Administry.setup();
 	
-	// validate signup form on keyup and submit
-	var validator = $("#form").validate({
+	// validate form on keyup and submit
+	var validator = $("#newQuestionForm").validate({
 		rules: {
-			uploadFile: {
-				required:true,
-				accept:"xls"
-			},
+			title: "required",
+			content: "required"
 		},
 		messages: {
-			uploadFile:{
-				required: "请选择文件",
-				accept:"仅支持.xls结尾的文件"
-			}
+			title: "请输入题目标题",
+			content: "请输入题目正文",
 		},
 		// the errorPlacement has to take the layout into account
 		errorPlacement: function(error, element) {
 			error.insertAfter(element.parent().find('label:first'));
+		},
+		// specifying a submitHandler prevents the default submit, good for the demo
+		submitHandler: function() {
+			alert("Data submitted!");
 		},
 		// set new class to error-labels to indicate valid fields
 		success: function(label) {
@@ -86,48 +75,6 @@ $(document).ready(function(){
 		}
 	});
 	
-	//提交表单时触发。采用ajaxfileupload。。
-	$('#form').submit(function(){
-		
-		$("#loading")
-        .ajaxStart(function(){
-            $(this).show();
-        })//开始上传文件时显示一个图片
-        .ajaxComplete(function(){
-            $(this).hide();
-        });//文件上传完成将图片隐藏起来
-        
-        $.ajaxFileUpload
-        (
-            {
-                url:'${ctx}/namelist/importTeacher.do',//用于文件上传的服务器端请求地址
-                secureuri:false,//一般设置为false
-                fileElementId:'uploadFile',//文件上传空间的id属性  <input type="file" id="file" name="file" />
-                dataType: 'json',//返回值类型 一般设置为json
-                success: function (data, status)  //服务器成功响应处理函数
-                {
-                    alert(data);//从服务器返回的json中取出message中的数据,其中message为在struts2中action中定义的成员变量
-                    
-                    if(typeof(data.err) != 'undefined')
-                    {
-                        if(data.err != '')
-                        {
-                            alert(data.err);
-                        }else
-                        {
-                            alert(data.info);
-                        }
-                    }
-                },
-                error: function (data, status, e)//服务器响应失败处理函数
-                {
-                }
-            }
-        )
-		
-		return false;
-	});
-
 });
 </script>
 </head>
@@ -138,7 +85,7 @@ $(document).ready(function(){
 	<!-- Page title -->
 	<div id="pagetitle">
 		<div class="wrapper">
-			<h1>导入教师信息</h1>
+			<h1>出题</h1>
 			<!-- Quick search box -->
 		</div>
 	</div>
@@ -147,37 +94,71 @@ $(document).ready(function(){
 	<!-- Page content -->
 	<div id="page">
 		<!-- Wrapper -->
-		<div class="wrapper-login">
-				<!-- Login form -->
-				<section id="login" class="full">					
-					
-					<h3>选择文件</h3>
-					<c:if test="${not empty err }">
-					<div class="box box-error">${err }</div>
-					</c:if>
-					<c:if test="${not empty info }">
-					<div class="box box-info">${info }</div>
-					</c:if>
-					<c:if test="${(empty err) and (empty info)}">
-					<div class="box box-info">请选择要导入excel文件</div>
-					</c:if>
+		<div class="wrapper">
+				<!-- Left column/section -->
+				<section class="column width6 first">					
 
-					<form id="form" method="post" >
-						<p>
-							<label class="required" for="uploadFile">文件:</label><br/>
-							<input type="file" id="uploadFile" class="full" value="" name="uploadFile"/>
-						</p>
+					<h3></h3>
+					<form id="newQuestionForm" method="post" action="${ctx }/question/addQuestion.do" >
+
+						<fieldset>
+							<div class="box box-error">Invalid credit card info</div>
+							<legend>题目信息</legend>
+								<p>
+									<label class="required" for="title">题目标题:</label><br/>
+									<input type="text" id="input1" class="full" value="" name="title"/>
+								</p>
+								
+								<p>
+									<label for="remark">选题说明:</label><br/>
+									<input type="text" id="input1" class="full" value="" name="remark"/>
+								</p>
+								<p>
+									<label class="required" for="content">题目正文:</label><br/>
+									<textarea id="area3" class="large full" name="content"></textarea>
+								</p>
+								<p class="">
+									<input type="submit" class="btn btn-green big" value="提 交"/> 
+									&nbsp;&nbsp;&nbsp;
+									<input type="reset" class="btn" value="清 除"/>
+								</p>
+						</fieldset>
 						
-						<p>
-							<img style="display:none;" id="loading" src="${ctx }/img/loading.gif"/><input type="submit" class="btn btn-green big" value="提交"/>
-						</p>
-						<div class="clear">&nbsp;</div>
-
 					</form>
-					
+				
 				</section>
-				<!-- End of login form -->
-
+				<!-- End of Left column/section -->
+				
+				<!-- Right column/section -->
+				<aside class="column width2">
+					<div id="rightmenu">
+						<header>
+							<h3>You might also want to check out...</h3>
+						</header>
+						<dl class="first">
+							<dt><img width="16" height="16" alt="Basic styles" src="${ctx}/img/style.png"></dt>
+							<dd><a href="styles.html">Basic styles</a></dd>
+							<dd class="last">Basic elements and styles</dd>							
+							
+							<dt><img width="16" height="16" alt="Form validation" src="${ctx}/img/book.png"></dt>
+							<dd><a href="../../docs.jquery.com/Plugins/Validation">Form validation</a></dd>
+							<dd class="last">jQuery form validation documentation</dd>							
+						</dl>
+					</div>
+					<div class="content-box">
+						<header>
+							<h3>Quick info</h3>
+						</header>
+						<section>
+							<q>A form is an area that can contain form elements.
+							Form elements are elements that allow the user to enter information (like text fields, textarea fields, drop-down menus, radio buttons, checkboxes, etc.) in a form.
+							A form is defined with the &lt;form&gt; tag.
+							<cite>w3schools.com</cite></q>							
+						</section>
+					</div>
+				</aside>
+				<!-- End of Right column/section -->
+				
 		</div>
 		<!-- End of Wrapper -->
 	</div>

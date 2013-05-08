@@ -4,6 +4,11 @@ import com.qcs.question.dao.QuestionDao;
 import com.qcs.question.mapper.QuestionMapper;
 import com.qcs.question.pojo.Question;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Repository;
+
 import com.qcs.base.pagination.PaginationResult;
 import com.qcs.base.pagination.PaginationInfo;
 import com.qcs.base.pagination.PaginationContext;
@@ -15,11 +20,12 @@ import com.qcs.base.pagination.PaginationContext;
  * @date 2013-05-05 03:45:51
  *
  */
-
+@Repository
 public class QuestionDaoImpl implements QuestionDao{
 	/**
 	*	Question映射的mapper
 	*/
+	@Autowired
 	private QuestionMapper questionMapper;
 
 	/**
@@ -29,7 +35,7 @@ public class QuestionDaoImpl implements QuestionDao{
 	 * @param question
 	 * @return int
 	 */
-	public int add(Question question){
+	public int add(Question question) throws DataAccessException{
 
 		return questionMapper.insertQuestion(question);
 
@@ -41,7 +47,7 @@ public class QuestionDaoImpl implements QuestionDao{
 	 * @param question
 	 * @return int
 	 */
-	public int delete(Question question){
+	public int delete(Question question) throws DataAccessException{
 
 		return questionMapper.deleteQuestion(question);
 
@@ -53,7 +59,7 @@ public class QuestionDaoImpl implements QuestionDao{
 	 * @param question
 	 * @return int
 	 */
-	public int update(Question question){
+	public int update(Question question) throws DataAccessException{
 
 		return questionMapper.updateQuestion(question);
 
@@ -65,7 +71,7 @@ public class QuestionDaoImpl implements QuestionDao{
 	 * @param question
 	 * @return List<Question>
 	 */
-	public List<Question> query(Question question){
+	public List<Question> query(Question question) throws DataAccessException{
 
 		return questionMapper.nestedSelectQuestion(question);
 
@@ -78,7 +84,7 @@ public class QuestionDaoImpl implements QuestionDao{
 	 * @param pageInfo
 	 * @return PaginationResult<Question>
 	 */
-	public PaginationResult<Question> query(Question question,PaginationInfo pageInfo){
+	public PaginationResult<Question> query(Question question,PaginationInfo pageInfo) throws DataAccessException{
 
 		PaginationContext.set(pageInfo);
 		PaginationResult<Question> pageResult = new PaginationResult<Question>();

@@ -61,11 +61,82 @@ $(document).ready(function(){
 	Administry.setup();
 	
 	/* datatable */
-	$('#teacherInfo').dataTable();
+	$('#jobInfo').dataTable();
+	
+	// validate signup form on keyup and submit
+	var validator = $("#addJob").validate({
+		rules: {
+			job: {
+				required:true,
+			},
+			questionNum: {
+				required:true,
+				digits: true, 
+			}
+		},
+		messages: {
+			job: {
+				required:"请输入职务名称",
+			},
+			questionNum: {
+				required:"请输入职务可以出题的最大数量",
+				digits:"出题数量必须是整数"
+			}
+		},
+		// the errorPlacement has to take the layout into account
+		errorPlacement: function(error, element) {
+			error.insertAfter(element.parent().find('label:first'));
+		},
+		// set new class to error-labels to indicate valid fields
+		success: function(label) {
+			// set &nbsp; as text for IE
+			label.html("&nbsp;").addClass("ok");
+		}
+	});
+	
+	
+	// validate signup form on keyup and submit
+	var validator = $("#updateJob").validate({
+		rules: {
+			job: {
+				required:true,
+			},
+			questionNum: {
+				required:true,
+				digits: true, 
+			}
+		},
+		messages: {
+			job: {
+				required:"请输入职务名称",
+			},
+			questionNum: {
+				required:"请输入职务可以出题的最大数量",
+				digits:"出题数量必须是整数"
+			}
+		},
+		// the errorPlacement has to take the layout into account
+		errorPlacement: function(error, element) {
+			error.insertAfter(element.parent().find('label:first'));
+		},
+		// set new class to error-labels to indicate valid fields
+		success: function(label) {
+			// set &nbsp; as text for IE
+			label.html("&nbsp;").addClass("ok");
+		}
+	});
 	
 	/* expandable rows */
 	Administry.expandableRows();
 });
+
+function showModifyJob(id,job,questionNum){
+	$('#jobId').val(id);
+	$('#jobName').val(job);
+	$('#jobQuestionNum').val(questionNum);
+	
+	$('#modifyJob').show('slow');
+}
 
 </script>
 </head>
@@ -76,7 +147,7 @@ $(document).ready(function(){
 	<!-- Page title -->
 	<div id="pagetitle">
 		<div class="wrapper">
-			<h1>教师查询</h1>
+			<h1>职务维护</h1>
 			<!-- Quick search box -->
 		</div>
 	</div>
@@ -88,79 +159,79 @@ $(document).ready(function(){
 		<div class="wrapper">
 				<!-- Left column/section -->
 				<section class="column width6 first">					
-
-					<h3>教师信息</h3>
-					<form id="queryTeacherForm" method="post" action="${ctx }/teacherManager/query.do">
-
+					<h3>添加职务</h3>
+					<form id="addJob" method="post" action="${ctx }/teacherManager/addJob.do">
+	
 						<fieldset>
-							<legend>查询条件</legend>
-
+							<legend>职务信息</legend>
+	
 							<p>
-								<label for="teacherNo">教工号:</label><br/>
-								<input type="text" id="teacherNo" class="half" value="${teacher.teacherNo }" name="teacher.teacherNo"/>
+								<label class="required" for="jobNo">职务名称:</label><br/>
+								<input type="text" class="half" name="job"/>
 							</p>
-
+	
 							<p>
-								<label for="name">教师姓名:</label><br/>
-								<input type="text" id="name" class="half" value="${teacher.name }" name="teacher.name"/>
+								<label class="required" for="name">出题数量:</label><br/>
+								<input type="text" class="half" name="questionNum"/>
 							</p>
 							
-							<p class=""><input type="submit" class="btn btn-green big" value="查询"/> &nbsp;&nbsp;&nbsp; <input type="reset" class="btn" value="清除"/></p>
-
+							<p class=""><input type="submit" class="btn btn-green big" value="新 增"/> &nbsp;&nbsp;&nbsp; <input type="reset" class="btn" value="清除"/></p>
+	
 						</fieldset>
-
+	
 					</form>
-
+				</section>
+				<!-- End of Left column/section -->
+		
+				<!-- Left column/section -->
+				<section id="modifyJob" style="display:none;" class="column width6 first">					
+					<h3>修改职务</h3>
+					<form id="updateJob" method="post" action="${ctx }/teacherManager/updateJob.do">
+	
+						<fieldset>
+							<legend>职务信息</legend>
+							<input type="hidden" id="jobId" name="id" />
+							<p>
+								<label class="required" for="jobNo">职务名称:</label><br/>
+								<input type="text" id="jobName" class="half" name="job"/>
+							</p>
+	
+							<p>
+								<label class="required" for="name">出题数量:</label><br/>
+								<input type="text" id="jobQuestionNum" class="half" name="questionNum"/>
+							</p>
+							
+							<p class=""><input type="submit" class="btn btn-green big" value="修 改"/> &nbsp;&nbsp;&nbsp; <input onclick="$('#modifyJob').hide('slow')" type="reset" class="btn" value="取 消"/></p>
+	
+						</fieldset>
+	
+					</form>
 				</section>
 				<!-- End of Left column/section -->
 		
 				<!-- Left column/section -->
 				<section class="column width8 first">					
 					
-					<table class="display stylized" id="teacherInfo">
+					<table class="display stylized" id="jobInfo">
 						<thead>
 							<tr>
-								<th>教工号</th>
-								<th>姓名</th>
-								<th>性别</th>
-								<th>生日</th>
-								<th>部门(学院)</th>
-								<th>学历</th>
-								<th>学位</th>
-								<th>职位</th>
-								<th>职称</th>
-								<th>专业名称</th>
-								<th>毕业院校</th>
-								<th>教师资格</th>
-								<th>备注</th>
+								<th>id</th>
+								<th>职务</th>
+								<th>出题数量</th>
+								<th>操作</th>
 							</tr>
 						</thead>
 						<tbody>
-<!-- 							<tr class="gradeX"> -->
-<!-- 								<td>Trident</td> -->
-<!-- 								<td>Internet Explorer 4.0</td> -->
-<!-- 								<td>Win 95+</td> -->
-<!-- 								<td class="center">4</td> -->
-<!-- 								<td class="center">X</td> -->
-<!-- 							</tr> -->
-							<c:forEach items="${teacherList }" var="teacher">
+							<c:forEach items="${jobList }" var="job">
 								<tr class="gradeA">
-									<td>${teacher.teacherNo }</td>
-									<td>${teacher.name }</td>
+									<td>${job.id }</td>
+									<td>${job.job }</td>
+									<td>${job.questionNum }</td>
 									<td>
-										<c:if test="${teacher.gender eq '0' }">女</c:if>
-										<c:if test="${teacher.gender eq '1' }">男</c:if>
+										<a href="${ctx }/teacherManager/deleteJob.do?id=${job.id}">删除</a>
+										&nbsp;
+										<a href="javascript:void(0);" onclick="showModifyJob('${job.id}','${job.job }','${job.questionNum }')">修改</a>
 									</td>
-									<td>${teacher.birthDate }</td>
-									<td>${teacher.department }</td>
-									<td>${teacher.education }</td>
-									<td>${teacher.degree }</td>
-									<td>${teacher.job }</td>
-									<td>${teacher.jobTitle }</td>
-									<td>${teacher.major }</td>
-									<td>${teacher.graduated }</td>
-									<td>${teacher.teacherCert }</td>
-									<td>${teacher.remark }</td>
 								</tr>
 							</c:forEach>
 						</tfoot>

@@ -24,7 +24,7 @@ public interface TeacherService {
 	
 	public PaginationResult<Teacher> query(Teacher t,PaginationInfo pageInfo,boolean join)throws BusinessException;
 
-	public void importTeachers(File uploadFile) throws BusinessException;
+	public void insertTeachers(File uploadFile) throws BusinessException;
 	
 	
 }

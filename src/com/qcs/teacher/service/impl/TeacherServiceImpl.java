@@ -12,6 +12,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.qcs.base.exception.BusinessException;
@@ -89,8 +90,10 @@ public class TeacherServiceImpl implements TeacherService {
 	}
 
 	@Override
-	public void importTeachers(File uploadFile) throws BusinessException {
+	public void insertTeachers(File uploadFile) throws BusinessException {
 		POIFSFileSystem fs = null;
+		User user = null;
+		Teacher teacher = null;
 		try {
 			fs = new POIFSFileSystem(new FileInputStream(uploadFile));
 			//得到Excel工作簿对象   
@@ -103,35 +106,38 @@ public class TeacherServiceImpl implements TeacherService {
 			for(int i=1; i<rowNum; ++i){
 				//得到Excel工作表的行   
 				HSSFRow row = sheet.getRow(i);
-				Teacher t = new Teacher();
-				t.setTeacherNo(row.getCell(0).toString());
-				t.setName(row.getCell(1).toString());
+				teacher = new Teacher();
+				teacher.setTeacherNo(row.getCell(0).toString());
+				teacher.setName(row.getCell(1).toString());
 				String gender = row.getCell(2).equals("女") ? "0" : "1";
-				t.setGender(gender);
-				t.setBirthDate(row.getCell(3).toString());
-				t.setDepartment(row.getCell(4).toString());
-				t.setEducation(row.getCell(5).toString());
-				t.setDegree(row.getCell(6).toString());
-				t.setJob(row.getCell(7).toString());
-				t.setJobTitle(row.getCell(8).toString());
-				t.setMajor(row.getCell(9).toString());
-				t.setGraduated(row.getCell(10).toString());
-				t.setTeacherCert(row.getCell(11).toString());
-				t.setRemark(row.getCell(12).toString());
+				teacher.setGender(gender);
+				teacher.setBirthDate(row.getCell(3).toString());
+				teacher.setDepartment(row.getCell(4).toString());
+				teacher.setEducation(row.getCell(5).toString());
+				teacher.setDegree(row.getCell(6).toString());
+				teacher.setJob(row.getCell(7).toString());
+				teacher.setJobTitle(row.getCell(8).toString());
+				teacher.setMajor(row.getCell(9).toString());
+				teacher.setGraduated(row.getCell(10).toString());
+				teacher.setTeacherCert(row.getCell(11).toString());
+				teacher.setRemark(row.getCell(12).toString());
 				
 				
 				//创建一个用户
-				User user = new User();
-				user.setUsername("T"+t.getTeacherNo());
-				user.setPassword(MD5Utils.getMD5(t.getTeacherNo().getBytes()));
+				user = new User();
+				user.setUsername("T"+teacher.getTeacherNo());
+				user.setPassword(MD5Utils.getMD5(teacher.getTeacherNo().getBytes()));
 				user.setType("0");
 				user.setState("0");
 				//插入数据到user表
 				if(userDao.add(user) > 0){
-					t.setUserId(user.getId());
-					teacherDao.add(t);
+					teacher.setUserId(user.getId());
+					teacherDao.add(teacher);
 				}
 			}
+		} catch(DataAccessException e){
+			log.info(e);
+			throw new BusinessException("添加教师:"+teacher.getName()+",教工号:"+teacher.getTeacherNo()+"时出错！可能是教工号已存在!");
 		} catch (FileNotFoundException e) {
 			log.info(e);
 			throw new BusinessException("找不到文件![file:"+uploadFile.getAbsolutePath()+"]");

@@ -6,6 +6,7 @@ import com.qcs.user.pojo.User;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.qcs.base.pagination.PaginationResult;
@@ -34,7 +35,7 @@ public class UserDaoImpl implements UserDao{
 	 * @param user
 	 * @return int
 	 */
-	public int add(User user){
+	public int add(User user) throws DataAccessException{
 
 		return userMapper.insertUser(user);
 
@@ -46,7 +47,7 @@ public class UserDaoImpl implements UserDao{
 	 * @param user
 	 * @return int
 	 */
-	public int delete(User user){
+	public int delete(User user) throws DataAccessException{
 
 		return userMapper.deleteUser(user);
 
@@ -58,7 +59,7 @@ public class UserDaoImpl implements UserDao{
 	 * @param user
 	 * @return int
 	 */
-	public int update(User user){
+	public int update(User user) throws DataAccessException{
 
 		return userMapper.updateUser(user);
 
@@ -70,7 +71,7 @@ public class UserDaoImpl implements UserDao{
 	 * @param user
 	 * @return List<User>
 	 */
-	public List<User> query(User user){
+	public List<User> query(User user) throws DataAccessException{
 
 		return userMapper.nestedSelectUser(user);
 
@@ -83,7 +84,7 @@ public class UserDaoImpl implements UserDao{
 	 * @param pageInfo
 	 * @return PaginationResult<User>
 	 */
-	public PaginationResult<User> query(User user,PaginationInfo pageInfo){
+	public PaginationResult<User> query(User user,PaginationInfo pageInfo) throws DataAccessException{
 
 		PaginationContext.set(pageInfo);
 		PaginationResult<User> pageResult = new PaginationResult<User>();
