@@ -51,7 +51,7 @@ $(document).ready(function(){
 	Administry.setup();
 	
 	// validate form on keyup and submit
-	var validator = $("#newQuestionForm").validate({
+	var validator = $("#updateQuestionForm").validate({
 		rules: {
 			title: "required",
 			content: "required"
@@ -95,7 +95,7 @@ $(document).ready(function(){
 				<section class="column width6 first">					
 
 					<h3></h3>
-					<form id="newQuestionForm" method="post" action="${ctx }/question/addQuestion.do" >
+					<form id="updateQuestionForm" method="post" action="${ctx }/question/updateQuestion.do" >
 
 						<fieldset>
 							<c:if test="${not empty err }">
@@ -107,6 +107,7 @@ $(document).ready(function(){
 							</c:if>
 							
 							<legend>题目信息</legend>
+								<input type="hidden" value="${id }" name="id"/>
 								<p>
 									<label class="required" for="title">题目标题:</label><br/>
 									<input type="text" id="input1" class="full" value="${title }" name="title"/>
@@ -119,7 +120,7 @@ $(document).ready(function(){
 								
 								<p>
 									<label class="required" for="content">题目正文:</label><br/>
-									<textarea id="area3" class="large full" name="content">${content }</textarea>
+									<textarea id="area3" class="large full" name="content" >${content }</textarea>
 								</p>
 								
 								<p class="">
@@ -133,7 +134,6 @@ $(document).ready(function(){
 				
 				</section>
 				<!-- End of Left column/section -->
-				
 		</div>
 		<!-- End of Wrapper -->
 	</div>

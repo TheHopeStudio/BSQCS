@@ -17,5 +17,9 @@ public interface QuestionService {
 	
 	public List<Question> query(Question question) throws BusinessException;
 	
+	public List<Question> query(Question question,boolean join) throws BusinessException;
+	
 	public PaginationResult<Question> query(Question question,PaginationInfo pageInfo) throws BusinessException;
+	
+	public PaginationResult<Question> query(Question question,PaginationInfo pageInfo,boolean join) throws BusinessException;
 }

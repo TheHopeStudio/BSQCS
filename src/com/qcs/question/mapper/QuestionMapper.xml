@@ -2,53 +2,96 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.qcs.question.mapper.QuestionMapper">
-  <!--嵌套查询(子查询)结果集和子查询-->
-  <resultMap id="questionNestedResultMap" type="Question">
-    <id property="id" column="id"/>
-    <result property="teacherInfoId" column="teacher_info_id"/>
-    <result property="title" column="title"/>
-    <result property="content" column="content"/>
-    <result property="remark" column="remark"/>
-    <result property="state" column="state"/>
+  <!--连表查询结果集和子结果集-->
+  <resultMap id="questionJoinResultMap" type="Question">
+    <id property="id" column="q_id"/>
+    <result property="studentId" column="q_student_id"/>
+    <result property="teacherId" column="q_teacher_id"/>
+    <result property="title" column="q_title"/>
+    <result property="content" column="q_content"/>
+    <result property="remark" column="q_remark"/>
+    <result property="state" column="q_state"/>
+    <result property="live" column="q_live"/>
+    <association property="student" column="{q_student_id}" javaType="Student" resultMap="studentSubResultMap"/>
   </resultMap>
-  <!--嵌套查询动态sql语句-->
-  <select id="nestedSelectQuestion" parameterType="Question" resultMap="questionNestedResultMap"><![CDATA[select q.id,q.teacher_info_id,q.title,q.content,q.remark,q.state from question q ]]>
+  <resultMap id="studentSubResultMap" type="Student">
+    <id property="id" column="si_id"/>
+    <result property="userId" column="si_user_id"/>
+    <result property="studentNo" column="si_student_no"/>
+    <result property="email" column="si_email"/>
+  </resultMap>
+  <!--连表查询动态sql语句-->
+  <select id="joinSelectQuestion" parameterType="Question" resultMap="questionJoinResultMap"><![CDATA[select q.id as q_id,q.student_id as q_student_id,q.teacher_id as q_teacher_id,q.title as q_title,q.content as q_content,q.remark as q_remark,q.state as q_state,q.live as q_live,si.id as si_id,si.user_id as si_user_id,si.student_no as si_student_no,si.email as si_email from question q left join student_info si on q.student_id = si.id ]]>
     <trim prefix="where" prefixOverrides="and |or">
       <if test="id != null"><![CDATA[and q.id = #{id} ]]></if>
-      <if test="teacherInfoId != null"><![CDATA[and q.teacher_info_id = #{teacherInfoId} ]]></if>
+      <if test="studentId != null"><![CDATA[and q.student_id = #{studentId} ]]></if>
+      <if test="teacherId != null"><![CDATA[and q.teacher_id = #{teacherId} ]]></if>
       <if test="title != null"><![CDATA[and q.title = #{title} ]]></if>
       <if test="content != null"><![CDATA[and q.content = #{content} ]]></if>
       <if test="remark != null"><![CDATA[and q.remark = #{remark} ]]></if>
       <if test="state != null"><![CDATA[and q.state = #{state} ]]></if>
+      <if test="live != null"><![CDATA[and q.live = #{live} ]]></if>
+    </trim>
+  </select>
+  <!--嵌套查询(子查询)结果集和子查询-->
+  <resultMap id="questionNestedResultMap" type="Question">
+    <id property="id" column="id"/>
+    <result property="studentId" column="student_id"/>
+    <result property="teacherId" column="teacher_id"/>
+    <result property="title" column="title"/>
+    <result property="content" column="content"/>
+    <result property="remark" column="remark"/>
+    <result property="state" column="state"/>
+    <result property="live" column="live"/>
+    <association property="student" column="{studentId=student_id}" javaType="Student" select="studentSubSelect"/>
+  </resultMap>
+  <select id="studentSubSelect" parameterType="HashMap" resultMap="com.qcs.student.mapper.StudentMapper.studentNestedResultMap"><![CDATA[select si.id,si.user_id,si.student_no,si.email from student_info si where si.id = #{studentId}]]></select>
+  <!--嵌套查询动态sql语句-->
+  <select id="nestedSelectQuestion" parameterType="Question" resultMap="questionNestedResultMap"><![CDATA[select q.id,q.student_id,q.teacher_id,q.title,q.content,q.remark,q.state,q.live from question q ]]>
+    <trim prefix="where" prefixOverrides="and |or">
+      <if test="id != null"><![CDATA[and q.id = #{id} ]]></if>
+      <if test="studentId != null"><![CDATA[and q.student_id = #{studentId} ]]></if>
+      <if test="teacherId != null"><![CDATA[and q.teacher_id = #{teacherId} ]]></if>
+      <if test="title != null"><![CDATA[and q.title = #{title} ]]></if>
+      <if test="content != null"><![CDATA[and q.content = #{content} ]]></if>
+      <if test="remark != null"><![CDATA[and q.remark = #{remark} ]]></if>
+      <if test="state != null"><![CDATA[and q.state = #{state} ]]></if>
+      <if test="live != null"><![CDATA[and q.live = #{live} ]]></if>
     </trim>
   </select>
   <!--插入动态sql语句-->
   <insert id="insertQuestion" parameterType="Question" flushCache="true" useGeneratedKeys="true" keyProperty="id"><![CDATA[insert into question ]]>
     <trim prefix="(" suffix=")" prefixOverrides=",">
       <if test="id != null"><![CDATA[,id]]></if>
-      <if test="teacherInfoId != null"><![CDATA[,teacher_info_id]]></if>
+      <if test="studentId != null"><![CDATA[,student_id]]></if>
+      <if test="teacherId != null"><![CDATA[,teacher_id]]></if>
       <if test="title != null"><![CDATA[,title]]></if>
       <if test="content != null"><![CDATA[,content]]></if>
       <if test="remark != null"><![CDATA[,remark]]></if>
       <if test="state != null"><![CDATA[,state]]></if>
+      <if test="live != null"><![CDATA[,live]]></if>
     </trim>
     <trim prefix="values(" suffix=")" prefixOverrides=",">
       <if test="id != null"><![CDATA[,#{id}]]></if>
-      <if test="teacherInfoId != null"><![CDATA[,#{teacherInfoId}]]></if>
+      <if test="studentId != null"><![CDATA[,#{studentId}]]></if>
+      <if test="teacherId != null"><![CDATA[,#{teacherId}]]></if>
       <if test="title != null"><![CDATA[,#{title}]]></if>
       <if test="content != null"><![CDATA[,#{content}]]></if>
       <if test="remark != null"><![CDATA[,#{remark}]]></if>
       <if test="state != null"><![CDATA[,#{state}]]></if>
+      <if test="live != null"><![CDATA[,#{live}]]></if>
     </trim>
   </insert>
   <!--更新动态sql语句-->
   <update id="updateQuestion" parameterType="Question" flushCache="true"><![CDATA[update question ]]>
     <set>
-      <if test="teacherInfoId != null"><![CDATA[teacher_info_id=#{teacherInfoId},]]></if>
+      <if test="studentId != null"><![CDATA[student_id=#{studentId},]]></if>
+      <if test="teacherId != null"><![CDATA[teacher_id=#{teacherId},]]></if>
       <if test="title != null"><![CDATA[title=#{title},]]></if>
       <if test="content != null"><![CDATA[content=#{content},]]></if>
       <if test="remark != null"><![CDATA[remark=#{remark},]]></if>
       <if test="state != null"><![CDATA[state=#{state},]]></if>
+      <if test="live != null"><![CDATA[live=#{live},]]></if>
     </set><![CDATA[where id = #{id}]]>
   </update>
   <!--删除动态sql语句-->
@@ -57,11 +100,13 @@
       <choose>
         <when test="id != null"><![CDATA[and id = #{id}]]></when>
         <otherwise>
-          <if test="teacherInfoId != null"><![CDATA[and teacher_info_id = #{teacherInfoId}]]></if>
+          <if test="studentId != null"><![CDATA[and student_id = #{studentId}]]></if>
+          <if test="teacherId != null"><![CDATA[and teacher_id = #{teacherId}]]></if>
           <if test="title != null"><![CDATA[and title = #{title}]]></if>
           <if test="content != null"><![CDATA[and content = #{content}]]></if>
           <if test="remark != null"><![CDATA[and remark = #{remark}]]></if>
           <if test="state != null"><![CDATA[and state = #{state}]]></if>
+          <if test="live != null"><![CDATA[and live = #{live}]]></if>
         </otherwise>
       </choose>
     </where>

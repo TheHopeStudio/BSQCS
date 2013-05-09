@@ -52,4 +52,16 @@ public class QuestionServiceImpl implements QuestionService {
 		this.questionDao = questionDao;
 	}
 
+	@Override
+	public List<Question> query(Question question, boolean join)
+			throws BusinessException {
+		return this.questionDao.query(question, join);
+	}
+
+	@Override
+	public PaginationResult<Question> query(Question question,
+			PaginationInfo pageInfo, boolean join) throws BusinessException {
+		return this.questionDao.query(question, pageInfo,join);
+	}
+
 }

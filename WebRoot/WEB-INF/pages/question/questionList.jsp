@@ -31,10 +31,12 @@
 <!-- Superfish navigation -->
 <script type="text/javascript" src="${ctx}/js/jquery.superfish.min.js"></script>
 <script type="text/javascript" src="${ctx}/js/jquery.supersubs.min.js"></script>
-<!-- jQuery popup box -->
-<script type="text/javascript" src="${ctx}/js/jquery.nyroModal.pack.js"></script>
 <!-- jQuery form validation -->
 <script type="text/javascript" src="${ctx}/js/jquery.validate_pack.js"></script>
+<!-- jQuery popup box -->
+<script type="text/javascript" src="${ctx}/js/jquery.nyroModal.pack.js"></script>
+<!-- jQuery data tables -->
+<script type="text/javascript" src="${ctx}/js/jquery.dataTables.min.js"></script>
 <!-- Internet Explorer Fixes --> 
 <!--[if IE]>
 <link rel="stylesheet" type="text/css" media="all" href="${ctx}/css/ie.css"/>
@@ -50,28 +52,13 @@ $(document).ready(function(){
 	/* setup navigation, content boxes, etc... */
 	Administry.setup();
 	
-	// validate form on keyup and submit
-	var validator = $("#newQuestionForm").validate({
-		rules: {
-			title: "required",
-			content: "required"
-		},
-		messages: {
-			title: "请输入题目标题",
-			content: "请输入题目正文"
-		},
-		// the errorPlacement has to take the layout into account
-		errorPlacement: function(error, element) {
-			error.insertAfter(element.parent().find('label:first'));
-		},
-		// set new class to error-labels to indicate valid fields
-		success: function(label) {
-			// set &nbsp; as text for IE
-			label.html("&nbsp;").addClass("ok");
-		}
-	});
+	/* datatable */
+	$('#questionInfo').dataTable();
 	
+	/* expandable rows */
+	Administry.expandableRows();
 });
+
 </script>
 </head>
 <body>
@@ -81,7 +68,7 @@ $(document).ready(function(){
 	<!-- Page title -->
 	<div id="pagetitle">
 		<div class="wrapper">
-			<h1>出题</h1>
+			<h1>我的题目</h1>
 			<!-- Quick search box -->
 		</div>
 	</div>
@@ -92,45 +79,57 @@ $(document).ready(function(){
 		<!-- Wrapper -->
 		<div class="wrapper">
 				<!-- Left column/section -->
-				<section class="column width6 first">					
-
-					<h3></h3>
-					<form id="newQuestionForm" method="post" action="${ctx }/question/addQuestion.do" >
-
-						<fieldset>
-							<c:if test="${not empty err }">
-								<div class="box box-error">${err }</div>
-							</c:if>
-							
-							<c:if test="${not empty info }">
-								<div class="box box-info">${info }</div>
-							</c:if>
-							
-							<legend>题目信息</legend>
-								<p>
-									<label class="required" for="title">题目标题:</label><br/>
-									<input type="text" id="input1" class="full" value="${title }" name="title"/>
-								</p>
-								
-								<p>
-									<label for="remark">选题说明:</label><br/>
-									<input type="text" id="input1" class="full" value="${remark }" name="remark"/>
-								</p>
-								
-								<p>
-									<label class="required" for="content">题目正文:</label><br/>
-									<textarea id="area3" class="large full" name="content">${content }</textarea>
-								</p>
-								
-								<p class="">
-									<input type="submit" class="btn btn-green big" value="提 交"/> 
-									&nbsp;&nbsp;&nbsp;
-									<input type="reset" class="btn" value="清 除"/>
-								</p>
-						</fieldset>
-						
-					</form>
-				
+				<section class="column width8 first">					
+					<h3>题目列表</h3>
+					
+					<table class="display stylized" id="questionInfo">
+						<thead>
+							<tr>
+								<th>标题</th>
+								<th>选题说明</th>
+								<th>题目正文</th>
+								<th>审批状态</th>
+								<th>是否被选中</th>
+								<th>学生ID</th>
+								<th>学生名</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${questionList }" var="question">
+								<tr class="gradeA">
+									<td>${question.title }</td>
+									<td>${question.remark }</td>
+									<td>${question.content }</td>
+									<td>
+										<c:if test="${question.state eq '0' }">审批中</c:if>
+										<c:if test="${question.state eq '1' }">通过</c:if>
+										<c:if test="${question.state eq '2' }">未通过</c:if>
+									</td>
+									<td>
+										<c:if test="${question.live }">否</c:if>
+										<c:if test="${not question.live }">是</c:if>
+									</td>
+									<td>${question.student.id }</td>
+									<td>${question.student.name }</td>
+									<td>
+										<c:if test="${question.state ne '1' }">
+<!-- 										未通过状态能够修改和删除 -->
+											<a href="${ctx }/question/deleteQuestion.do?id=${question.id}">删除</a>
+											&nbsp;&nbsp;
+											<a href="${ctx }/question/toUpdateQuestion.do?id=${question.id}">修改</a>
+										</c:if>
+										<c:if test="${question.state eq '1' }">
+<!-- 											通过状态可以确认给某1个学生-->
+										</c:if>
+									</td>
+								</tr>
+							</c:forEach>
+						</tfoot>
+					</table>
+					
+					<div class="clear">&nbsp;</div>
+					
 				</section>
 				<!-- End of Left column/section -->
 				

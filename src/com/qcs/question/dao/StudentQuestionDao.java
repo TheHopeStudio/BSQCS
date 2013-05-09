@@ -2,9 +2,6 @@ package com.qcs.question.dao;
 
 import com.qcs.question.pojo.StudentQuestion;
 import java.util.List;
-
-import org.springframework.dao.DataAccessException;
-
 import com.qcs.base.pagination.PaginationResult;
 import com.qcs.base.pagination.PaginationInfo;
 import com.qcs.base.pagination.PaginationContext;
@@ -13,7 +10,7 @@ import com.qcs.base.pagination.PaginationContext;
  *
  * @ClassName: StudentQuestionDao
  * @author 
- * @date 2013-05-05 03:45:51
+ * @date 2013-05-09 09:52:50
  *
  */
 
@@ -26,7 +23,7 @@ public interface StudentQuestionDao{
 	 * @param studentQuestion
 	 * @return int
 	 */
-	public int add(StudentQuestion studentQuestion) throws DataAccessException;
+	public int add(StudentQuestion studentQuestion);
 
 	/**
 	 *
@@ -35,7 +32,7 @@ public interface StudentQuestionDao{
 	 * @param studentQuestion
 	 * @return int
 	 */
-	public int delete(StudentQuestion studentQuestion) throws DataAccessException;
+	public int delete(StudentQuestion studentQuestion);
 
 	/**
 	 *
@@ -44,7 +41,7 @@ public interface StudentQuestionDao{
 	 * @param studentQuestion
 	 * @return int
 	 */
-	public int update(StudentQuestion studentQuestion) throws DataAccessException;
+	public int update(StudentQuestion studentQuestion);
 
 	/**
 	 *
@@ -53,7 +50,7 @@ public interface StudentQuestionDao{
 	 * @param studentQuestion
 	 * @return List<StudentQuestion>
 	 */
-	public List<StudentQuestion> query(StudentQuestion studentQuestion) throws DataAccessException;
+	public List<StudentQuestion> query(StudentQuestion studentQuestion);
 
 	/**
 	 *
@@ -63,6 +60,6 @@ public interface StudentQuestionDao{
 	 * @param pageInfo
 	 * @return PaginationResult<StudentQuestion>
 	 */
-	public PaginationResult<StudentQuestion> query(StudentQuestion studentQuestion,PaginationInfo pageInfo) throws DataAccessException;
+	public PaginationResult<StudentQuestion> query(StudentQuestion studentQuestion,PaginationInfo pageInfo);
 
 }

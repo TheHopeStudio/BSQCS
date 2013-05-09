@@ -5,7 +5,7 @@ package com.qcs.question.pojo;
  *
  * @ClassName: StudentQuestion
  * @author 
- * @date 2013-05-05 03:45:51
+ * @date 2013-05-09 09:52:49
  *
  */
 

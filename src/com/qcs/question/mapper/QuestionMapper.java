@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @ClassName: QuestionMapper
  * @author 
- * @date 2013-05-05 03:45:51
+ * @date 2013-05-09 09:43:25
  *
  */
 
@@ -48,5 +48,14 @@ public interface QuestionMapper{
 	 * @return List<Question>
 	 */
 	public List<Question> nestedSelectQuestion(Question question);
+
+	/**
+	 *
+	 * @Title joinSelectQuestion
+	 * @Description 根据传入的参数作为条件,从数据库查询出符合条件的记录,采用连表查询的方式
+	 * @param question
+	 * @return List<Question>
+	 */
+	public List<Question> joinSelectQuestion(Question question);
 
 }

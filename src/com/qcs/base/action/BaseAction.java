@@ -16,6 +16,9 @@ public class BaseAction extends ActionSupport {
 	protected HttpSession session;
 	protected ActionContext context;
 	
+	protected String info;
+	protected String err;
+	
 	public BaseAction(){
 		context = ActionContext.getContext();
 		request = (HttpServletRequest) context.get(ServletActionContext.HTTP_REQUEST);
@@ -53,5 +56,21 @@ public class BaseAction extends ActionSupport {
 
 	public void setContext(ActionContext context) {
 		this.context = context;
+	}
+
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
+	}
+
+	public String getErr() {
+		return err;
+	}
+
+	public void setErr(String err) {
+		this.err = err;
 	}
 }

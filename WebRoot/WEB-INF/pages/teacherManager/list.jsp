@@ -16,14 +16,6 @@
 <link rel="apple-touch-icon" href="${ctx}/img/favicons/apple.png" />
 <!-- Main Stylesheet --> 
 <link rel="stylesheet" href="${ctx}/css/style.css" type="text/css" />
-<!-- Colour Schemes
-Default colour scheme is blue. Uncomment prefered stylesheet to use it.
-<link rel="stylesheet" href="${ctx}/css/brown.css" type="text/css" media="screen" />  
-<link rel="stylesheet" href="${ctx}/css/gray.css" type="text/css" media="screen" />  
-<link rel="stylesheet" href="${ctx}/css/green.css" type="text/css" media="screen" />
-<link rel="stylesheet" href="${ctx}/css/pink.css" type="text/css" media="screen" />  
-<link rel="stylesheet" href="${ctx}/css/red.css" type="text/css" media="screen" />
--->
 <!-- Your Custom Stylesheet --> 
 <link rel="stylesheet" href="${ctx}/css/custom.css" type="text/css" />
 <!--swfobject - needed only if you require <video> tag support for older browsers -->
@@ -136,13 +128,6 @@ $(document).ready(function(){
 							</tr>
 						</thead>
 						<tbody>
-<!-- 							<tr class="gradeX"> -->
-<!-- 								<td>Trident</td> -->
-<!-- 								<td>Internet Explorer 4.0</td> -->
-<!-- 								<td>Win 95+</td> -->
-<!-- 								<td class="center">4</td> -->
-<!-- 								<td class="center">X</td> -->
-<!-- 							</tr> -->
 							<c:forEach items="${teacherList }" var="teacher">
 								<tr class="gradeA">
 									<td>${teacher.teacherNo }</td>

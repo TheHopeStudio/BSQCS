@@ -1,20 +1,26 @@
 package com.qcs.question.pojo;
 
+import com.qcs.student.pojo.Student;
 
 /**
  *
  * @ClassName: Question
  * @author 
- * @date 2013-05-05 03:45:51
+ * @date 2013-05-09 09:33:24
  *
  */
 
 public class Question{
 	private Integer id;
 	/**
+	*	选题学生id
+
+	*/
+	private Integer studentId;
+	/**
 	*	出题教师id
 	*/
-	private Integer teacherInfoId;
+	private Integer teacherId;
 	private String title;
 	private String content;
 	private String remark;
@@ -25,6 +31,11 @@ public class Question{
 2：不通过
 	*/
 	private String state;
+	/**
+	*	是否存活（未被选中）
+	*/
+	private Object live;
+	private Student student;
 
 	/**
 	 *
@@ -51,25 +62,48 @@ public class Question{
 	}
 	/**
 	 *
-	 * @Title getTeacherInfoId
-	 * @Description 返回teacherInfoId的值
+	 * @Title getStudentId
+	 * @Description 返回studentId的值
 	 * @return Integer
 	 */
-	public Integer getTeacherInfoId(){
+	public Integer getStudentId(){
 
-		return this.teacherInfoId;
+		return this.studentId;
 
 	}
 	/**
 	 *
-	 * @Title setTeacherInfoId
-	 * @Description 设置teacherInfoId的值
-	 * @param teacherInfoId
+	 * @Title setStudentId
+	 * @Description 设置studentId的值
+	 * @param studentId
 	 * @return void
 	 */
-	public void setTeacherInfoId(Integer teacherInfoId){
+	public void setStudentId(Integer studentId){
 
-		this.teacherInfoId = teacherInfoId;
+		this.studentId = studentId;
+
+	}
+	/**
+	 *
+	 * @Title getTeacherId
+	 * @Description 返回teacherId的值
+	 * @return Integer
+	 */
+	public Integer getTeacherId(){
+
+		return this.teacherId;
+
+	}
+	/**
+	 *
+	 * @Title setTeacherId
+	 * @Description 设置teacherId的值
+	 * @param teacherId
+	 * @return void
+	 */
+	public void setTeacherId(Integer teacherId){
+
+		this.teacherId = teacherId;
 
 	}
 	/**
@@ -162,6 +196,52 @@ public class Question{
 	public void setState(String state){
 
 		this.state = state;
+
+	}
+	/**
+	 *
+	 * @Title getLive
+	 * @Description 返回live的值
+	 * @return Object
+	 */
+	public Object getLive(){
+
+		return this.live;
+
+	}
+	/**
+	 *
+	 * @Title setLive
+	 * @Description 设置live的值
+	 * @param live
+	 * @return void
+	 */
+	public void setLive(Object live){
+
+		this.live = live;
+
+	}
+	/**
+	 *
+	 * @Title getStudent
+	 * @Description 返回student的值
+	 * @return Student
+	 */
+	public Student getStudent(){
+
+		return this.student;
+
+	}
+	/**
+	 *
+	 * @Title setStudent
+	 * @Description 设置student的值
+	 * @param student
+	 * @return void
+	 */
+	public void setStudent(Student student){
+
+		this.student = student;
 
 	}
 }

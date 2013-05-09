@@ -5,8 +5,6 @@ import com.qcs.question.mapper.QuestionMapper;
 import com.qcs.question.pojo.Question;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.qcs.base.pagination.PaginationResult;
@@ -17,7 +15,7 @@ import com.qcs.base.pagination.PaginationContext;
  *
  * @ClassName: QuestionDaoImpl
  * @author 
- * @date 2013-05-05 03:45:51
+ * @date 2013-05-09 09:46:25
  *
  */
 @Repository
@@ -25,7 +23,6 @@ public class QuestionDaoImpl implements QuestionDao{
 	/**
 	*	Question映射的mapper
 	*/
-	@Autowired
 	private QuestionMapper questionMapper;
 
 	/**
@@ -35,7 +32,7 @@ public class QuestionDaoImpl implements QuestionDao{
 	 * @param question
 	 * @return int
 	 */
-	public int add(Question question) throws DataAccessException{
+	public int add(Question question){
 
 		return questionMapper.insertQuestion(question);
 
@@ -47,7 +44,7 @@ public class QuestionDaoImpl implements QuestionDao{
 	 * @param question
 	 * @return int
 	 */
-	public int delete(Question question) throws DataAccessException{
+	public int delete(Question question){
 
 		return questionMapper.deleteQuestion(question);
 
@@ -59,7 +56,7 @@ public class QuestionDaoImpl implements QuestionDao{
 	 * @param question
 	 * @return int
 	 */
-	public int update(Question question) throws DataAccessException{
+	public int update(Question question){
 
 		return questionMapper.updateQuestion(question);
 
@@ -68,12 +65,48 @@ public class QuestionDaoImpl implements QuestionDao{
 	 *
 	 * @Title query
 	 * @Description 根据参数question的属性做条件,查询数据表question的记录。
+	 * 若join为true则采用表连接查询复杂属性.否则采用子查询方式查询
+	 * @param question
+	 * @param join
+	 * @return List<Question>
+	 */
+	public List<Question> query(Question question,boolean join){
+
+		if(join){
+			return questionMapper.joinSelectQuestion(question);
+		}else{
+			return questionMapper.nestedSelectQuestion(question);
+		}
+
+	}
+	/**
+	 *
+	 * @Title query
+	 * @Description 此方法是分页查询方法。根据pageInfo中的参数!查询数据表
+	 * @param question
+	 * @param pageInfo
+	 * @param join
+	 * @return PaginationResult<Question>
+	 */
+	public PaginationResult<Question> query(Question question,PaginationInfo pageInfo,boolean join){
+
+		PaginationContext.set(pageInfo);
+		PaginationResult<Question> pageResult = new PaginationResult<Question>();
+		pageResult.setData(query(question,join));
+		pageResult.setPaginationInfo(pageInfo);
+		return pageResult;
+
+	}
+	/**
+	 *
+	 * @Title query
+	 * @Description 根据参数question的属性做条件,查询数据表question的记录。采用嵌套查询方式查询复杂属性
 	 * @param question
 	 * @return List<Question>
 	 */
-	public List<Question> query(Question question) throws DataAccessException{
+	public List<Question> query(Question question){
 
-		return questionMapper.nestedSelectQuestion(question);
+		return query(question,false);
 
 	}
 	/**
@@ -84,7 +117,7 @@ public class QuestionDaoImpl implements QuestionDao{
 	 * @param pageInfo
 	 * @return PaginationResult<Question>
 	 */
-	public PaginationResult<Question> query(Question question,PaginationInfo pageInfo) throws DataAccessException{
+	public PaginationResult<Question> query(Question question,PaginationInfo pageInfo){
 
 		PaginationContext.set(pageInfo);
 		PaginationResult<Question> pageResult = new PaginationResult<Question>();

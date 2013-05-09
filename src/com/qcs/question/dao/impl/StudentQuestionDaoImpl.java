@@ -5,7 +5,7 @@ import com.qcs.question.mapper.StudentQuestionMapper;
 import com.qcs.question.pojo.StudentQuestion;
 import java.util.List;
 
-import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Repository;
 
 import com.qcs.base.pagination.PaginationResult;
 import com.qcs.base.pagination.PaginationInfo;
@@ -15,10 +15,11 @@ import com.qcs.base.pagination.PaginationContext;
  *
  * @ClassName: StudentQuestionDaoImpl
  * @author 
- * @date 2013-05-05 03:45:51
+ * @date 2013-05-09 09:52:50
  *
  */
 
+@Repository
 public class StudentQuestionDaoImpl implements StudentQuestionDao{
 	/**
 	*	StudentQuestion映射的mapper
@@ -32,7 +33,7 @@ public class StudentQuestionDaoImpl implements StudentQuestionDao{
 	 * @param studentQuestion
 	 * @return int
 	 */
-	public int add(StudentQuestion studentQuestion) throws DataAccessException{
+	public int add(StudentQuestion studentQuestion){
 
 		return studentQuestionMapper.insertStudentQuestion(studentQuestion);
 
@@ -44,7 +45,7 @@ public class StudentQuestionDaoImpl implements StudentQuestionDao{
 	 * @param studentQuestion
 	 * @return int
 	 */
-	public int delete(StudentQuestion studentQuestion) throws DataAccessException{
+	public int delete(StudentQuestion studentQuestion){
 
 		return studentQuestionMapper.deleteStudentQuestion(studentQuestion);
 
@@ -56,7 +57,7 @@ public class StudentQuestionDaoImpl implements StudentQuestionDao{
 	 * @param studentQuestion
 	 * @return int
 	 */
-	public int update(StudentQuestion studentQuestion) throws DataAccessException{
+	public int update(StudentQuestion studentQuestion){
 
 		return studentQuestionMapper.updateStudentQuestion(studentQuestion);
 
@@ -68,7 +69,7 @@ public class StudentQuestionDaoImpl implements StudentQuestionDao{
 	 * @param studentQuestion
 	 * @return List<StudentQuestion>
 	 */
-	public List<StudentQuestion> query(StudentQuestion studentQuestion) throws DataAccessException{
+	public List<StudentQuestion> query(StudentQuestion studentQuestion){
 
 		return studentQuestionMapper.nestedSelectStudentQuestion(studentQuestion);
 
@@ -81,7 +82,7 @@ public class StudentQuestionDaoImpl implements StudentQuestionDao{
 	 * @param pageInfo
 	 * @return PaginationResult<StudentQuestion>
 	 */
-	public PaginationResult<StudentQuestion> query(StudentQuestion studentQuestion,PaginationInfo pageInfo) throws DataAccessException{
+	public PaginationResult<StudentQuestion> query(StudentQuestion studentQuestion,PaginationInfo pageInfo){
 
 		PaginationContext.set(pageInfo);
 		PaginationResult<StudentQuestion> pageResult = new PaginationResult<StudentQuestion>();
