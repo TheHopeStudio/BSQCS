@@ -62,15 +62,16 @@ DROP TABLE IF EXISTS `QCS`.`question` ;
 
 CREATE  TABLE IF NOT EXISTS `QCS`.`question` (
   `id` INT NOT NULL AUTO_INCREMENT ,
-  `teacher_info_id` INT NOT NULL COMMENT '出题教师id' ,
+  `teacher_id` INT NOT NULL COMMENT '出题教师id' ,
   `title` VARCHAR(100) NULL ,
   `content` VARCHAR(500) NULL ,
   `remark` VARCHAR(100) NULL ,
   `state` VARCHAR(45) NULL COMMENT '状态\n0：审核中\n1：通过\n2：不通过' ,
+  `live` TINYINT(1) NOT NULL DEFAULT true COMMENT '是否存活（未被选中）' ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_question_teacher_info_idx` (`teacher_info_id` ASC) ,
+  INDEX `fk_question_teacher_info_idx` (`teacher_id` ASC) ,
   CONSTRAINT `fk_question_teacher_info`
-    FOREIGN KEY (`teacher_info_id` )
+    FOREIGN KEY (`teacher_id` )
     REFERENCES `QCS`.`teacher_info` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
