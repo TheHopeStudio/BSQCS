@@ -171,6 +171,20 @@ CREATE  TABLE IF NOT EXISTS `QCS`.`menu` (
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `QCS`.`choosing_time`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `QCS`.`choosing_time` ;
+
+CREATE  TABLE IF NOT EXISTS `QCS`.`choosing_time` (
+  `id` INT NOT NULL ,
+  `start_time` TIMESTAMP NULL COMMENT '选题起始时间' ,
+  `end_time` TIMESTAMP NULL COMMENT '选题结束时间' ,
+  `state` VARCHAR(2) NULL COMMENT '状态 0：不启用  1：启用' ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB;
+
 USE `QCS` ;
 
 

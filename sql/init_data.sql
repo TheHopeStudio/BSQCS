@@ -2,7 +2,7 @@
 -- Query: SELECT * FROM QCS.menu
 LIMIT 0, 1000
 
--- Date: 2013-05-08 14:47
+-- Date: 2013-05-11 11:21
 */
 INSERT INTO `menu` (`id`,`parent_id`,`seq`,`title`,`uri`,`type`) VALUES (1,'0','11','教师管理','/teacherManager','2');
 INSERT INTO `menu` (`id`,`parent_id`,`seq`,`title`,`uri`,`type`) VALUES (2,'0','22','学生管理','/studentManager','2');
@@ -26,4 +26,7 @@ INSERT INTO `menu` (`id`,`parent_id`,`seq`,`title`,`uri`,`type`) VALUES (19,'0',
 INSERT INTO `menu` (`id`,`parent_id`,`seq`,`title`,`uri`,`type`) VALUES (20,'0','22','个人资料','/personal','1');
 INSERT INTO `menu` (`id`,`parent_id`,`seq`,`title`,`uri`,`type`) VALUES (21,'0','33','查看成绩排名','/score','1');
 INSERT INTO `menu` (`id`,`parent_id`,`seq`,`title`,`uri`,`type`) VALUES (22,'20','11','查看个人信息','/personal/personalInfo.do','1');
-INSERT INTO `menu` (`id`,`parent_id`,`seq`,`title`,`uri`,`type`) VALUES (23,NULL,'22','密码修改','/personal/modifyPassword.do','1');
+INSERT INTO `menu` (`id`,`parent_id`,`seq`,`title`,`uri`,`type`) VALUES (23,'20','22','密码修改','/personal/modifyPassword.do','1');
+INSERT INTO `menu` (`id`,`parent_id`,`seq`,`title`,`uri`,`type`) VALUES (24,'1','22','职务维护','/teacherManager/queryJob.do','2');
+INSERT INTO `menu` (`id`,`parent_id`,`seq`,`title`,`uri`,`type`) VALUES (27,'11','22','我的题目','/question/myQuestion.do','0');
+INSERT INTO `menu` (`id`,`parent_id`,`seq`,`title`,`uri`,`type`) VALUES (28,'3',NULL,'题目审核','/question/toAudit.do','2');
