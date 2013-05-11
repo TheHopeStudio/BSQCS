@@ -34,7 +34,7 @@ public class Question{
 	/**
 	*	是否存活（未被选中）
 	*/
-	private Object live;
+	private Boolean live;
 	private Student student;
 
 	/**
@@ -204,7 +204,7 @@ public class Question{
 	 * @Description 返回live的值
 	 * @return Object
 	 */
-	public Object getLive(){
+	public boolean getLive(){
 
 		return this.live;
 
@@ -216,7 +216,7 @@ public class Question{
 	 * @param live
 	 * @return void
 	 */
-	public void setLive(Object live){
+	public void setLive(boolean live){
 
 		this.live = live;
 

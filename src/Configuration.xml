@@ -24,6 +24,7 @@
     <typeAlias alias="Student" type="com.qcs.student.pojo.Student"/>
     <typeAlias alias="StudentQuestion" type="com.qcs.question.pojo.StudentQuestion"/>
     <typeAlias alias="Menu" type="com.qcs.menu.pojo.Menu"/>
+    <typeAlias alias="ChoosingTime" type="com.qcs.choosingTime.pojo.ChoosingTime"/>
   </typeAliases>
   <!--plugins-->
   <plugins>
@@ -38,5 +39,6 @@
     <mapper resource="com/qcs/student/mapper/StudentMapper.xml"/>
     <mapper resource="com/qcs/question/mapper/StudentQuestionMapper.xml"/>
     <mapper resource="com/qcs/menu/mapper/MenuMapper.xml"/>
+    <mapper resource="com/qcs/choosingTime/mapper/ChoosingTimeMapper.xml"/>
   </mappers>
 </configuration>
