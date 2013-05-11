@@ -1,21 +1,19 @@
 package com.qcs.question.pojo;
 
+import java.util.Date;
 import com.qcs.student.pojo.Student;
+import java.util.List;
 
 /**
  *
  * @ClassName: Question
  * @author 
- * @date 2013-05-09 09:33:24
+ * @date 2013-05-11 10:05:56
  *
  */
 
 public class Question{
 	private Integer id;
-	/**
-	*	选题学生id
-
-	*/
 	private Integer studentId;
 	/**
 	*	出题教师id
@@ -34,8 +32,21 @@ public class Question{
 	/**
 	*	是否存活（未被选中）
 	*/
-	private Boolean live;
+	private Object live;
+	/**
+	*	被选时间
+	*/
+	private Date chooseTime;
+	/**
+	*	被选时间
+	*/
+	private Date startTime;
+	/**
+	*	被选时间
+	*/
+	private Date endTime;
 	private Student student;
+	private List<Student> selectionStudents;
 
 	/**
 	 *
@@ -204,7 +215,7 @@ public class Question{
 	 * @Description 返回live的值
 	 * @return Object
 	 */
-	public boolean getLive(){
+	public Object getLive(){
 
 		return this.live;
 
@@ -216,9 +227,78 @@ public class Question{
 	 * @param live
 	 * @return void
 	 */
-	public void setLive(boolean live){
+	public void setLive(Object live){
 
 		this.live = live;
+
+	}
+	/**
+	 *
+	 * @Title getChooseTime
+	 * @Description 返回chooseTime的值
+	 * @return Date
+	 */
+	public Date getChooseTime(){
+
+		return this.chooseTime;
+
+	}
+	/**
+	 *
+	 * @Title setChooseTime
+	 * @Description 设置chooseTime的值
+	 * @param chooseTime
+	 * @return void
+	 */
+	public void setChooseTime(Date chooseTime){
+
+		this.chooseTime = chooseTime;
+
+	}
+	/**
+	 *
+	 * @Title getStartTime
+	 * @Description 返回startTime的值
+	 * @return Date
+	 */
+	public Date getStartTime(){
+
+		return this.startTime;
+
+	}
+	/**
+	 *
+	 * @Title setStartTime
+	 * @Description 设置startTime的值
+	 * @param startTime
+	 * @return void
+	 */
+	public void setStartTime(Date startTime){
+
+		this.startTime = startTime;
+
+	}
+	/**
+	 *
+	 * @Title getEndTime
+	 * @Description 返回endTime的值
+	 * @return Date
+	 */
+	public Date getEndTime(){
+
+		return this.endTime;
+
+	}
+	/**
+	 *
+	 * @Title setEndTime
+	 * @Description 设置endTime的值
+	 * @param endTime
+	 * @return void
+	 */
+	public void setEndTime(Date endTime){
+
+		this.endTime = endTime;
 
 	}
 	/**
@@ -242,6 +322,29 @@ public class Question{
 	public void setStudent(Student student){
 
 		this.student = student;
+
+	}
+	/**
+	 *
+	 * @Title getSelectionStudents
+	 * @Description 返回selectionStudents的值
+	 * @return List<Student>
+	 */
+	public List<Student> getSelectionStudents(){
+
+		return this.selectionStudents;
+
+	}
+	/**
+	 *
+	 * @Title setSelectionStudents
+	 * @Description 设置selectionStudents的值
+	 * @param selectionStudents
+	 * @return void
+	 */
+	public void setSelectionStudents(List<Student> selectionStudents){
+
+		this.selectionStudents = selectionStudents;
 
 	}
 }

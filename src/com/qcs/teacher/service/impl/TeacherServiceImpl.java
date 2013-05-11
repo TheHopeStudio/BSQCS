@@ -103,24 +103,24 @@ public class TeacherServiceImpl implements TeacherService {
 			//行数
 			int rowNum = sheet.getLastRowNum();
 			//表头行不要
-			for(int i=1; i<rowNum; ++i){
+			for(int i=1; i<=rowNum; ++i){
 				//得到Excel工作表的行   
 				HSSFRow row = sheet.getRow(i);
 				teacher = new Teacher();
-				teacher.setTeacherNo(row.getCell(0).toString());
-				teacher.setName(row.getCell(1).toString());
-				String gender = row.getCell(2).equals("女") ? "0" : "1";
+				teacher.setTeacherNo(nvl(row.getCell(0)));
+				teacher.setName(nvl(row.getCell(1)));
+				String gender = nvl(row.getCell(2)).equals("女") ? "0" : "1";
 				teacher.setGender(gender);
-				teacher.setBirthDate(row.getCell(3).toString());
-				teacher.setDepartment(row.getCell(4).toString());
-				teacher.setEducation(row.getCell(5).toString());
-				teacher.setDegree(row.getCell(6).toString());
-				teacher.setJob(row.getCell(7).toString());
-				teacher.setJobTitle(row.getCell(8).toString());
-				teacher.setMajor(row.getCell(9).toString());
-				teacher.setGraduated(row.getCell(10).toString());
-				teacher.setTeacherCert(row.getCell(11).toString());
-				teacher.setRemark(row.getCell(12).toString());
+				teacher.setBirthDate(nvl(row.getCell(3)));
+				teacher.setDepartment(nvl(row.getCell(4)));
+				teacher.setEducation(nvl(row.getCell(5)));
+				teacher.setDegree(nvl(row.getCell(6)));
+				teacher.setJob(nvl(row.getCell(7)));
+				teacher.setJobTitle(nvl(row.getCell(8)));
+				teacher.setMajor(nvl(row.getCell(9)));
+				teacher.setGraduated(nvl(row.getCell(10)));
+				teacher.setTeacherCert(nvl(row.getCell(11)));
+				teacher.setRemark(nvl(row.getCell(12)));
 				
 				
 				//创建一个用户
@@ -145,6 +145,13 @@ public class TeacherServiceImpl implements TeacherService {
 			log.info(e);
 			throw new BusinessException("文件读取异常");
 		}   
+	}
+	
+	private String nvl(Object o){
+		if(null != o){
+			return o.toString();
+		}
+		return "";
 	}
 
 }

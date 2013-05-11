@@ -21,4 +21,8 @@ public interface UserService {
 	public PaginationResult<User> query(User user,PaginationInfo pageInfo);
 
 	public User login(User user);
+
+	public void freeze(User user);
+	
+	public void unFreeze(User user);
 }

@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.qcs.choosingTime.mapper.ChoosingTimeMapper">
+<mapper namespace="com.qcs.question.mapper.ChoosingTimeMapper">
   <!--嵌套查询(子查询)结果集和子查询-->
   <resultMap id="choosingTimeNestedResultMap" type="ChoosingTime">
     <id property="id" column="id"/>
+    <result property="name" column="name"/>
     <result property="startTime" column="start_time"/>
     <result property="endTime" column="end_time"/>
     <result property="state" column="state"/>
   </resultMap>
   <!--嵌套查询动态sql语句-->
-  <select id="nestedSelectChoosingTime" parameterType="ChoosingTime" resultMap="choosingTimeNestedResultMap"><![CDATA[select ct.id,ct.start_time,ct.end_time,ct.state from choosing_time ct ]]>
+  <select id="nestedSelectChoosingTime" parameterType="ChoosingTime" resultMap="choosingTimeNestedResultMap"><![CDATA[select ct.id,ct.name,ct.start_time,ct.end_time,ct.state from choosing_time ct ]]>
     <trim prefix="where" prefixOverrides="and |or">
       <if test="id != null"><![CDATA[and ct.id = #{id} ]]></if>
+      <if test="name != null"><![CDATA[and ct.name = #{name} ]]></if>
       <if test="startTime != null"><![CDATA[and ct.start_time = #{startTime} ]]></if>
       <if test="endTime != null"><![CDATA[and ct.end_time = #{endTime} ]]></if>
       <if test="state != null"><![CDATA[and ct.state = #{state} ]]></if>
@@ -22,12 +24,14 @@
   <insert id="insertChoosingTime" parameterType="ChoosingTime" flushCache="true" useGeneratedKeys="true" keyProperty="id"><![CDATA[insert into choosing_time ]]>
     <trim prefix="(" suffix=")" prefixOverrides=",">
       <if test="id != null"><![CDATA[,id]]></if>
+      <if test="name != null"><![CDATA[,name]]></if>
       <if test="startTime != null"><![CDATA[,start_time]]></if>
       <if test="endTime != null"><![CDATA[,end_time]]></if>
       <if test="state != null"><![CDATA[,state]]></if>
     </trim>
     <trim prefix="values(" suffix=")" prefixOverrides=",">
       <if test="id != null"><![CDATA[,#{id}]]></if>
+      <if test="name != null"><![CDATA[,#{name}]]></if>
       <if test="startTime != null"><![CDATA[,#{startTime}]]></if>
       <if test="endTime != null"><![CDATA[,#{endTime}]]></if>
       <if test="state != null"><![CDATA[,#{state}]]></if>
@@ -36,6 +40,7 @@
   <!--更新动态sql语句-->
   <update id="updateChoosingTime" parameterType="ChoosingTime" flushCache="true"><![CDATA[update choosing_time ]]>
     <set>
+      <if test="name != null"><![CDATA[name=#{name},]]></if>
       <if test="startTime != null"><![CDATA[start_time=#{startTime},]]></if>
       <if test="endTime != null"><![CDATA[end_time=#{endTime},]]></if>
       <if test="state != null"><![CDATA[state=#{state},]]></if>
@@ -47,6 +52,7 @@
       <choose>
         <when test="id != null"><![CDATA[and id = #{id}]]></when>
         <otherwise>
+          <if test="name != null"><![CDATA[and name = #{name}]]></if>
           <if test="startTime != null"><![CDATA[and start_time = #{startTime}]]></if>
           <if test="endTime != null"><![CDATA[and end_time = #{endTime}]]></if>
           <if test="state != null"><![CDATA[and state = #{state}]]></if>

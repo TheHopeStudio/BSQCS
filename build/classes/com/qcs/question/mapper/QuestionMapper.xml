@@ -2,6 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.qcs.question.mapper.QuestionMapper">
+	<select id="queryNotChoose" parameterType="int"  resultMap="questionNestedResultMap">
+		<![CDATA[
+		select q.id,q.student_id,q.teacher_id,q.title,q.content,q.remark,q.state,q.live,q.choose_time from question q 
+		where q.state = '1' and q.live = true and q.id not in(
+			select sq.question_id from student_question sq join student_info si on si.id = sq.student_id where si.user_id = #{id}
+		)
+		]]>
+	</select>
+
   <!--连表查询结果集和子结果集-->
   <resultMap id="questionJoinResultMap" type="Question">
     <id property="id" column="q_id"/>
@@ -12,16 +21,48 @@
     <result property="remark" column="q_remark"/>
     <result property="state" column="q_state"/>
     <result property="live" column="q_live"/>
+    <result property="chooseTime" column="q_choose_time"/>
     <association property="student" column="{q_student_id}" javaType="Student" resultMap="studentSubResultMap"/>
+    <collection property="selectionStudents" column="{q_id}" ofType="Student" resultMap="studentSubResultMap1"/>
   </resultMap>
   <resultMap id="studentSubResultMap" type="Student">
     <id property="id" column="si_id"/>
     <result property="userId" column="si_user_id"/>
     <result property="studentNo" column="si_student_no"/>
     <result property="email" column="si_email"/>
+    <result property="name" column="si_name"/>
+    <result property="gender" column="si_gender"/>
+    <result property="telphone" column="si_telphone"/>
+    <result property="department" column="si_department"/>
+    <result property="major" column="si_major"/>
+    <result property="classes" column="si_classes"/>
+    <result property="grade" column="si_grade"/>
+    <result property="birthdate" column="si_birthDate"/>
+    <result property="score1" column="si_score1"/>
+    <result property="score2" column="si_score2"/>
+    <result property="score3" column="si_score3"/>
+    <result property="score4" column="si_score4"/>
+  </resultMap>
+  <resultMap id="studentSubResultMap1" type="Student">
+    <id property="id" column="si_12_id"/>
+    <result property="userId" column="si_12_user_id"/>
+    <result property="studentNo" column="si_12_student_no"/>
+    <result property="email" column="si_12_email"/>
+    <result property="name" column="si_12_name"/>
+    <result property="gender" column="si_12_gender"/>
+    <result property="telphone" column="si_12_telphone"/>
+    <result property="department" column="si_12_department"/>
+    <result property="major" column="si_12_major"/>
+    <result property="classes" column="si_12_classes"/>
+    <result property="grade" column="si_12_grade"/>
+    <result property="birthdate" column="si_12_birthDate"/>
+    <result property="score1" column="si_12_score1"/>
+    <result property="score2" column="si_12_score2"/>
+    <result property="score3" column="si_12_score3"/>
+    <result property="score4" column="si_12_score4"/>
   </resultMap>
   <!--连表查询动态sql语句-->
-  <select id="joinSelectQuestion" parameterType="Question" resultMap="questionJoinResultMap"><![CDATA[select q.id as q_id,q.student_id as q_student_id,q.teacher_id as q_teacher_id,q.title as q_title,q.content as q_content,q.remark as q_remark,q.state as q_state,q.live as q_live,si.id as si_id,si.user_id as si_user_id,si.student_no as si_student_no,si.email as si_email from question q left join student_info si on q.student_id = si.id ]]>
+  <select id="joinSelectQuestion" parameterType="Question" resultMap="questionJoinResultMap"><![CDATA[select q.id as q_id,q.student_id as q_student_id,q.teacher_id as q_teacher_id,q.title as q_title,q.content as q_content,q.remark as q_remark,q.state as q_state,q.live as q_live,q.choose_time as q_choose_time,si.id as si_id,si.user_id as si_user_id,si.student_no as si_student_no,si.email as si_email,si.name as si_name,si.gender as si_gender,si.telphone as si_telphone,si.department as si_department,si.major as si_major,si.classes as si_classes,si.grade as si_grade,si.birthDate as si_birthDate,si.score1 as si_score1,si.score2 as si_score2,si.score3 as si_score3,si.score4 as si_score4,si_12.id as si_12_id,si_12.user_id as si_12_user_id,si_12.student_no as si_12_student_no,si_12.email as si_12_email,si_12.name as si_12_name,si_12.gender as si_12_gender,si_12.telphone as si_12_telphone,si_12.department as si_12_department,si_12.major as si_12_major,si_12.classes as si_12_classes,si_12.grade as si_12_grade,si_12.birthDate as si_12_birthDate,si_12.score1 as si_12_score1,si_12.score2 as si_12_score2,si_12.score3 as si_12_score3,si_12.score4 as si_12_score4 from question q left join student_info si on q.student_id = si.id  left join student_question si_1 on q.id = si_1.question_id left join student_info si_12 on si_1.student_id = si_12.id]]>
     <trim prefix="where" prefixOverrides="and |or">
       <if test="id != null"><![CDATA[and q.id = #{id} ]]></if>
       <if test="studentId != null"><![CDATA[and q.student_id = #{studentId} ]]></if>
@@ -31,6 +72,9 @@
       <if test="remark != null"><![CDATA[and q.remark = #{remark} ]]></if>
       <if test="state != null"><![CDATA[and q.state = #{state} ]]></if>
       <if test="live != null"><![CDATA[and q.live = #{live} ]]></if>
+      <if test="chooseTime != null"><![CDATA[and q.choose_time = #{chooseTime} ]]></if>
+      <if test="startTime != null"><![CDATA[and q.choose_time >= #{startTime} ]]></if>
+      <if test="endTime != null"><![CDATA[and q.choose_time <= #{endTime} ]]></if>
     </trim>
   </select>
   <!--嵌套查询(子查询)结果集和子查询-->
@@ -43,11 +87,14 @@
     <result property="remark" column="remark"/>
     <result property="state" column="state"/>
     <result property="live" column="live"/>
+    <result property="chooseTime" column="choose_time"/>
     <association property="student" column="{studentId=student_id}" javaType="Student" select="studentSubSelect"/>
+    <collection property="selectionStudents" column="{id=id}" ofType="Student" select="studentSubSelect1"/>
   </resultMap>
-  <select id="studentSubSelect" parameterType="HashMap" resultMap="com.qcs.student.mapper.StudentMapper.studentNestedResultMap"><![CDATA[select si.id,si.user_id,si.student_no,si.email from student_info si where si.id = #{studentId}]]></select>
+  <select id="studentSubSelect" parameterType="HashMap" resultMap="com.qcs.student.mapper.StudentMapper.studentNestedResultMap"><![CDATA[select si.id,si.user_id,si.student_no,si.email,si.name,si.gender,si.telphone,si.department,si.major,si.classes,si.grade,si.birthDate,si.score1,si.score2,si.score3,si.score4 from student_info si where si.id = #{studentId}]]></select>
+  <select id="studentSubSelect1" parameterType="HashMap" resultMap="com.qcs.student.mapper.StudentMapper.studentNestedResultMap"><![CDATA[select si.id,si.user_id,si.student_no,si.email,si.name,si.gender,si.telphone,si.department,si.major,si.classes,si.grade,si.birthDate,si.score1,si.score2,si.score3,si.score4 from student_info si,student_question sq where si.id = sq.student_id and si.question_id = #{id}]]></select>
   <!--嵌套查询动态sql语句-->
-  <select id="nestedSelectQuestion" parameterType="Question" resultMap="questionNestedResultMap"><![CDATA[select q.id,q.student_id,q.teacher_id,q.title,q.content,q.remark,q.state,q.live from question q ]]>
+  <select id="nestedSelectQuestion" parameterType="Question" resultMap="questionNestedResultMap"><![CDATA[select q.id,q.student_id,q.teacher_id,q.title,q.content,q.remark,q.state,q.live,q.choose_time from question q ]]>
     <trim prefix="where" prefixOverrides="and |or">
       <if test="id != null"><![CDATA[and q.id = #{id} ]]></if>
       <if test="studentId != null"><![CDATA[and q.student_id = #{studentId} ]]></if>
@@ -57,6 +104,9 @@
       <if test="remark != null"><![CDATA[and q.remark = #{remark} ]]></if>
       <if test="state != null"><![CDATA[and q.state = #{state} ]]></if>
       <if test="live != null"><![CDATA[and q.live = #{live} ]]></if>
+      <if test="chooseTime != null"><![CDATA[and q.choose_time = #{chooseTime} ]]></if>
+      <if test="startTime != null"><![CDATA[and q.choose_time >= #{startTime} ]]></if>
+      <if test="endTime != null"><![CDATA[and q.choose_time <= #{endTime} ]]></if>
     </trim>
   </select>
   <!--插入动态sql语句-->
@@ -70,6 +120,7 @@
       <if test="remark != null"><![CDATA[,remark]]></if>
       <if test="state != null"><![CDATA[,state]]></if>
       <if test="live != null"><![CDATA[,live]]></if>
+      <if test="chooseTime != null"><![CDATA[,choose_time]]></if>
     </trim>
     <trim prefix="values(" suffix=")" prefixOverrides=",">
       <if test="id != null"><![CDATA[,#{id}]]></if>
@@ -80,6 +131,7 @@
       <if test="remark != null"><![CDATA[,#{remark}]]></if>
       <if test="state != null"><![CDATA[,#{state}]]></if>
       <if test="live != null"><![CDATA[,#{live}]]></if>
+      <if test="chooseTime != null"><![CDATA[,#{chooseTime}]]></if>
     </trim>
   </insert>
   <!--更新动态sql语句-->
@@ -92,6 +144,7 @@
       <if test="remark != null"><![CDATA[remark=#{remark},]]></if>
       <if test="state != null"><![CDATA[state=#{state},]]></if>
       <if test="live != null"><![CDATA[live=#{live},]]></if>
+      <if test="chooseTime != null"><![CDATA[choose_time=#{chooseTime},]]></if>
     </set><![CDATA[where id = #{id}]]>
   </update>
   <!--删除动态sql语句-->
@@ -107,6 +160,9 @@
           <if test="remark != null"><![CDATA[and remark = #{remark}]]></if>
           <if test="state != null"><![CDATA[and state = #{state}]]></if>
           <if test="live != null"><![CDATA[and live = #{live}]]></if>
+          <if test="chooseTime != null"><![CDATA[and choose_time = #{chooseTime}]]></if>
+          <if test="startTime != null"><![CDATA[and choose_time > #{startTime}]]></if>
+          <if test="endTime != null"><![CDATA[and choose_time < #{endTime}]]></if>
         </otherwise>
       </choose>
     </where>

@@ -84,4 +84,6 @@ public interface QuestionDao{
 	 */
 	public PaginationResult<Question> query(Question question,PaginationInfo pageInfo);
 
+	public List<Question> queryNotChoose(Integer id);
+
 }

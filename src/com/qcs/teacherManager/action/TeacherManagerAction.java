@@ -53,22 +53,8 @@ public class TeacherManagerAction extends BaseAction {
 	private String questionNum;
 	private String id;
 	
-	@Action("toQuery")
-	public String toQuery(){
-		return LIST;
-	}
-	
 	@Action("query")
 	public String query(){
-		if(teacher == null){
-			teacher = new Teacher();
-		}
-		if(!StringUtils.isNotBlank(teacher.getTeacherNo())){
-			teacher.setTeacherNo(null);
-		}
-		if(!StringUtils.isNotBlank(teacher.getName())){
-			teacher.setName(null);
-		}
 		try {
 			teacherList = teacherService.query(teacher, false);
 		} catch (BusinessException e) {

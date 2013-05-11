@@ -68,7 +68,7 @@ $(document).ready(function(){
 	<!-- Page title -->
 	<div id="pagetitle">
 		<div class="wrapper">
-			<h1>教师查询</h1>
+			<h1>教师列表</h1>
 			<!-- Quick search box -->
 		</div>
 	</div>
@@ -79,31 +79,31 @@ $(document).ready(function(){
 		<!-- Wrapper -->
 		<div class="wrapper">
 				<!-- Left column/section -->
-				<section class="column width6 first">					
+<!-- 				<section class="column width6 first">					 -->
 
-					<h3>教师信息</h3>
-					<form id="queryTeacherForm" method="post" action="${ctx }/teacherManager/query.do">
+<!-- 					<h3>教师信息</h3> -->
+<%-- 					<form id="queryTeacherForm" method="post" action="${ctx }/teacherManager/query.do"> --%>
 
-						<fieldset>
-							<legend>查询条件</legend>
+<!-- 						<fieldset> -->
+<!-- 							<legend>查询条件</legend> -->
 
-							<p>
-								<label for="teacherNo">教工号:</label><br/>
-								<input type="text" id="teacherNo" class="half" value="${teacher.teacherNo }" name="teacher.teacherNo"/>
-							</p>
+<!-- 							<p> -->
+<!-- 								<label for="teacherNo">教工号:</label><br/> -->
+<%-- 								<input type="text" id="teacherNo" class="half" value="${teacher.teacherNo }" name="teacher.teacherNo"/> --%>
+<!-- 							</p> -->
 
-							<p>
-								<label for="name">教师姓名:</label><br/>
-								<input type="text" id="name" class="half" value="${teacher.name }" name="teacher.name"/>
-							</p>
+<!-- 							<p> -->
+<!-- 								<label for="name">教师姓名:</label><br/> -->
+<%-- 								<input type="text" id="name" class="half" value="${teacher.name }" name="teacher.name"/> --%>
+<!-- 							</p> -->
 							
-							<p class=""><input type="submit" class="btn btn-green big" value="查询"/> &nbsp;&nbsp;&nbsp; <input type="reset" class="btn" value="清除"/></p>
+<!-- 							<p class=""><input type="submit" class="btn btn-green big" value="查询"/> &nbsp;&nbsp;&nbsp; <input type="reset" class="btn" value="清除"/></p> -->
 
-						</fieldset>
+<!-- 						</fieldset> -->
 
-					</form>
+<!-- 					</form> -->
 
-				</section>
+<!-- 				</section> -->
 				<!-- End of Left column/section -->
 		
 				<!-- Left column/section -->

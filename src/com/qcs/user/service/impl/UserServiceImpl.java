@@ -78,4 +78,16 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
+	@Override
+	public void freeze(User user) {
+		user.setState("1");
+		update(user);
+	}
+
+	@Override
+	public void unFreeze(User user) {
+		user.setState("0");
+		update(user);
+	}
+
 }

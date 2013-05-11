@@ -84,4 +84,6 @@ public interface StudentDao{
 	 */
 	public PaginationResult<Student> query(Student student,PaginationInfo pageInfo);
 
+	public List<Student> queryStudentWhichNoQuestion();
+
 }

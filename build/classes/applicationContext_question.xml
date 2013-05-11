@@ -27,4 +27,9 @@
       	<property name="sqlSessionFactory" ref="sqlSessionFactory" /> 
     </bean>
 	
+	
+	<bean id="choosingTimenMapper" class="org.mybatis.spring.mapper.MapperFactoryBean"> 
+      	<property name="mapperInterface" value="com.qcs.question.mapper.ChoosingTimeMapper" />
+      	<property name="sqlSessionFactory" ref="sqlSessionFactory" /> 
+    </bean>
 </beans>

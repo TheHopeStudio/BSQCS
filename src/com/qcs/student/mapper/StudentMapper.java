@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @ClassName: StudentMapper
  * @author 
- * @date 2013-05-05 03:45:51
+ * @date 2013-05-11 04:10:23
  *
  */
 
@@ -57,5 +57,7 @@ public interface StudentMapper{
 	 * @return List<Student>
 	 */
 	public List<Student> joinSelectStudent(Student student);
+
+	public List<Student> queryStudentWhichNoQuestion();
 
 }

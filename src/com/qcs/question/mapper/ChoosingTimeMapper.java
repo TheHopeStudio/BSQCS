@@ -1,13 +1,13 @@
-package com.qcs.choosingTime.mapper;
+package com.qcs.question.mapper;
 
-import com.qcs.choosingTime.pojo.ChoosingTime;
+import com.qcs.question.pojo.ChoosingTime;
 import java.util.List;
 
 /**
  *
  * @ClassName: ChoosingTimeMapper
  * @author 
- * @date 2013-05-11 11:31:29
+ * @date 2013-05-11 01:58:59
  *
  */
 

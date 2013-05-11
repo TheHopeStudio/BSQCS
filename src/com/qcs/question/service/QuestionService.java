@@ -22,4 +22,6 @@ public interface QuestionService {
 	public PaginationResult<Question> query(Question question,PaginationInfo pageInfo) throws BusinessException;
 	
 	public PaginationResult<Question> query(Question question,PaginationInfo pageInfo,boolean join) throws BusinessException;
+
+	public List<Question> queryNotChoose(Integer integer) throws BusinessException;
 }

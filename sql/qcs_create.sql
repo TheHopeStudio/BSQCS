@@ -50,8 +50,41 @@ CREATE  TABLE IF NOT EXISTS `QCS`.`teacher_info` (
   CONSTRAINT `fk_teacher_info_user_info1`
     FOREIGN KEY (`user_id` )
     REFERENCES `QCS`.`user_info` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `QCS`.`student_info`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `QCS`.`student_info` ;
+
+CREATE  TABLE IF NOT EXISTS `QCS`.`student_info` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `user_id` INT NOT NULL ,
+  `student_no` VARCHAR(45) NULL COMMENT '学号' ,
+  `email` VARCHAR(50) NULL COMMENT '邮箱' ,
+  `name` VARCHAR(45) NULL COMMENT '姓名' ,
+  `gender` VARCHAR(2) NULL COMMENT '0：女 1：男' ,
+  `telphone` VARCHAR(45) NULL COMMENT '电话' ,
+  `department` VARCHAR(50) NULL COMMENT '学院' ,
+  `major` VARCHAR(50) NULL COMMENT '专业' ,
+  `classes` VARCHAR(45) NULL COMMENT '行政班' ,
+  `grade` VARCHAR(45) NULL COMMENT '年级' ,
+  `birthDate` VARCHAR(20) NULL COMMENT '出生日期' ,
+  `score1` DOUBLE NULL COMMENT '成绩1' ,
+  `score2` DOUBLE NULL COMMENT '成绩2' ,
+  `score3` DOUBLE NULL COMMENT '成绩3' ,
+  `score4` DOUBLE NULL COMMENT '成绩4' ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_student_info_user_info2_idx` (`user_id` ASC) ,
+  UNIQUE INDEX `student_no_UNIQUE` (`student_no` ASC) ,
+  CONSTRAINT `fk_student_info_user_info2`
+    FOREIGN KEY (`user_id` )
+    REFERENCES `QCS`.`user_info` (`id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -62,19 +95,27 @@ DROP TABLE IF EXISTS `QCS`.`question` ;
 
 CREATE  TABLE IF NOT EXISTS `QCS`.`question` (
   `id` INT NOT NULL AUTO_INCREMENT ,
+  `student_id` INT NULL ,
   `teacher_id` INT NOT NULL COMMENT '出题教师id' ,
   `title` VARCHAR(100) NULL ,
   `content` VARCHAR(500) NULL ,
   `remark` VARCHAR(100) NULL ,
   `state` VARCHAR(45) NULL COMMENT '状态\n0：审核中\n1：通过\n2：不通过' ,
   `live` TINYINT(1) NOT NULL DEFAULT true COMMENT '是否存活（未被选中）' ,
+  `choose_time` TIMESTAMP NULL COMMENT '被选时间' ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_question_teacher_info_idx` (`teacher_id` ASC) ,
+  INDEX `fk_question_student_info1_idx` (`student_id` ASC) ,
   CONSTRAINT `fk_question_teacher_info`
     FOREIGN KEY (`teacher_id` )
     REFERENCES `QCS`.`teacher_info` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_question_student_info1`
+    FOREIGN KEY (`student_id` )
+    REFERENCES `QCS`.`student_info` (`id` )
+    ON DELETE SET NULL
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -102,33 +143,26 @@ CREATE  TABLE IF NOT EXISTS `QCS`.`student_info` (
   `user_id` INT NOT NULL ,
   `student_no` VARCHAR(45) NULL COMMENT '学号' ,
   `email` VARCHAR(50) NULL COMMENT '邮箱' ,
+  `name` VARCHAR(45) NULL COMMENT '姓名' ,
+  `gender` VARCHAR(2) NULL COMMENT '0：女 1：男' ,
+  `telphone` VARCHAR(45) NULL COMMENT '电话' ,
+  `department` VARCHAR(50) NULL COMMENT '学院' ,
+  `major` VARCHAR(50) NULL COMMENT '专业' ,
+  `classes` VARCHAR(45) NULL COMMENT '行政班' ,
+  `grade` VARCHAR(45) NULL COMMENT '年级' ,
+  `birthDate` VARCHAR(20) NULL COMMENT '出生日期' ,
+  `score1` DOUBLE NULL COMMENT '成绩1' ,
+  `score2` DOUBLE NULL COMMENT '成绩2' ,
+  `score3` DOUBLE NULL COMMENT '成绩3' ,
+  `score4` DOUBLE NULL COMMENT '成绩4' ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_student_info_user_info2_idx` (`user_id` ASC) ,
+  UNIQUE INDEX `student_no_UNIQUE` (`student_no` ASC) ,
   CONSTRAINT `fk_student_info_user_info2`
     FOREIGN KEY (`user_id` )
     REFERENCES `QCS`.`user_info` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `QCS`.`student_info`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `QCS`.`student_info` ;
-
-CREATE  TABLE IF NOT EXISTS `QCS`.`student_info` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
-  `user_id` INT NOT NULL ,
-  `student_no` VARCHAR(45) NULL COMMENT '学号' ,
-  `email` VARCHAR(50) NULL COMMENT '邮箱' ,
-  PRIMARY KEY (`id`) ,
-  INDEX `fk_student_info_user_info2_idx` (`user_id` ASC) ,
-  CONSTRAINT `fk_student_info_user_info2`
-    FOREIGN KEY (`user_id` )
-    REFERENCES `QCS`.`user_info` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -146,13 +180,13 @@ CREATE  TABLE IF NOT EXISTS `QCS`.`student_question` (
   CONSTRAINT `fk_student_question_question1`
     FOREIGN KEY (`question_id` )
     REFERENCES `QCS`.`question` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_student_question_student_info1`
     FOREIGN KEY (`student_id` )
     REFERENCES `QCS`.`student_info` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -178,7 +212,8 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `QCS`.`choosing_time` ;
 
 CREATE  TABLE IF NOT EXISTS `QCS`.`choosing_time` (
-  `id` INT NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(20) NULL COMMENT '名称' ,
   `start_time` TIMESTAMP NULL COMMENT '选题起始时间' ,
   `end_time` TIMESTAMP NULL COMMENT '选题结束时间' ,
   `state` VARCHAR(2) NULL COMMENT '状态 0：不启用  1：启用' ,

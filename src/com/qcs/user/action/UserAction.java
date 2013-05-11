@@ -1,6 +1,9 @@
 package com.qcs.user.action;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ExceptionMapping;
 import org.apache.struts2.convention.annotation.ExceptionMappings;
@@ -11,6 +14,9 @@ import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.qcs.base.action.BaseAction;
+import com.qcs.base.exception.BusinessException;
+import com.qcs.question.pojo.Question;
+import com.qcs.question.service.QuestionService;
 import com.qcs.user.pojo.User;
 import com.qcs.user.service.UserService;
 
@@ -39,11 +45,29 @@ public class UserAction extends BaseAction {
 	private String password;
 	private User user;
 	
+	private List<Question> questionList;
+	
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private QuestionService questionService;
+	
+	private Logger log = Logger.getLogger(this.getClass());
+	
 	@Action("index")
 	public String toIndex(){
+		
+		Question q = new Question();
+		q.setState("0");
+		q.setLive(true);
+		User user = (User) session.getAttribute("login_user");
+		try {
+			questionList = questionService.queryNotChoose(user.getId());
+		} catch (BusinessException e) {
+			log.debug(e);
+		}
+		
 		return INDEX;
 	}
 	
@@ -133,6 +157,22 @@ public class UserAction extends BaseAction {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public List<Question> getQuestionList() {
+		return questionList;
+	}
+
+	public void setQuestionList(List<Question> questionList) {
+		this.questionList = questionList;
+	}
+
+	public QuestionService getQuestionService() {
+		return questionService;
+	}
+
+	public void setQuestionService(QuestionService questionService) {
+		this.questionService = questionService;
 	}
 	
 }

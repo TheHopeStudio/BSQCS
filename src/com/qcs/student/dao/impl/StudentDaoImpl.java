@@ -4,6 +4,9 @@ import com.qcs.student.dao.StudentDao;
 import com.qcs.student.mapper.StudentMapper;
 import com.qcs.student.pojo.Student;
 import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
 import com.qcs.base.pagination.PaginationResult;
 import com.qcs.base.pagination.PaginationInfo;
 import com.qcs.base.pagination.PaginationContext;
@@ -15,7 +18,7 @@ import com.qcs.base.pagination.PaginationContext;
  * @date 2013-05-05 03:45:51
  *
  */
-
+@Repository
 public class StudentDaoImpl implements StudentDao{
 	/**
 	*	Student映射的mapper
@@ -145,5 +148,9 @@ public class StudentDaoImpl implements StudentDao{
 
 		this.studentMapper = studentMapper;
 
+	}
+	@Override
+	public List<Student> queryStudentWhichNoQuestion() {
+		return this.studentMapper.queryStudentWhichNoQuestion();
 	}
 }

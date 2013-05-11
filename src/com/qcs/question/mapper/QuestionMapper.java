@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @ClassName: QuestionMapper
  * @author 
- * @date 2013-05-09 09:43:25
+ * @date 2013-05-11 06:00:07
  *
  */
 
@@ -57,5 +57,7 @@ public interface QuestionMapper{
 	 * @return List<Question>
 	 */
 	public List<Question> joinSelectQuestion(Question question);
+
+	public List<Question> queryNotChoose(Integer id);
 
 }

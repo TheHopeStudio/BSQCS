@@ -5,6 +5,7 @@ import com.qcs.question.mapper.QuestionMapper;
 import com.qcs.question.pojo.Question;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.qcs.base.pagination.PaginationResult;
@@ -23,6 +24,7 @@ public class QuestionDaoImpl implements QuestionDao{
 	/**
 	*	Question映射的mapper
 	*/
+	@Autowired
 	private QuestionMapper questionMapper;
 
 	/**
@@ -148,5 +150,9 @@ public class QuestionDaoImpl implements QuestionDao{
 
 		this.questionMapper = questionMapper;
 
+	}
+	@Override
+	public List<Question> queryNotChoose(Integer id) {
+		return this.questionMapper.queryNotChoose(id);
 	}
 }

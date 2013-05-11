@@ -64,4 +64,9 @@ public class QuestionServiceImpl implements QuestionService {
 		return this.questionDao.query(question, pageInfo,join);
 	}
 
+	@Override
+	public List<Question> queryNotChoose(Integer id) throws BusinessException {
+		return this.questionDao.queryNotChoose(id);
+	}
+
 }

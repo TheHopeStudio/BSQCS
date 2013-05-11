@@ -1,6 +1,6 @@
-package com.qcs.choosingTime.dao;
+package com.qcs.question.dao;
 
-import com.qcs.choosingTime.pojo.ChoosingTime;
+import com.qcs.question.pojo.ChoosingTime;
 import java.util.List;
 import com.qcs.base.pagination.PaginationResult;
 import com.qcs.base.pagination.PaginationInfo;
@@ -10,7 +10,7 @@ import com.qcs.base.pagination.PaginationContext;
  *
  * @ClassName: ChoosingTimeDao
  * @author 
- * @date 2013-05-11 11:31:29
+ * @date 2013-05-11 12:05:09
  *
  */
 

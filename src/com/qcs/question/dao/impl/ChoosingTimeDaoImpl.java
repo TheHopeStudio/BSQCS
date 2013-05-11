@@ -1,9 +1,13 @@
-package com.qcs.choosingTime.dao.impl;
+package com.qcs.question.dao.impl;
 
-import com.qcs.choosingTime.dao.ChoosingTimeDao;
-import com.qcs.choosingTime.mapper.ChoosingTimeMapper;
-import com.qcs.choosingTime.pojo.ChoosingTime;
+import com.qcs.question.dao.ChoosingTimeDao;
+import com.qcs.question.mapper.ChoosingTimeMapper;
+import com.qcs.question.pojo.ChoosingTime;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.qcs.base.pagination.PaginationResult;
 import com.qcs.base.pagination.PaginationInfo;
 import com.qcs.base.pagination.PaginationContext;
@@ -12,14 +16,15 @@ import com.qcs.base.pagination.PaginationContext;
  *
  * @ClassName: ChoosingTimeDaoImpl
  * @author 
- * @date 2013-05-11 11:31:29
+ * @date 2013-05-11 12:05:09
  *
  */
-
+@Repository
 public class ChoosingTimeDaoImpl implements ChoosingTimeDao{
 	/**
 	*	ChoosingTime映射的mapper
 	*/
+	@Autowired
 	private ChoosingTimeMapper choosingTimeMapper;
 
 	/**

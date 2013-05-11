@@ -89,7 +89,7 @@ $(document).ready(function(){
 								<th>选题说明</th>
 								<th>题目正文</th>
 								<th>审批状态</th>
-								<th>是否被选中</th>
+								<th>是否已被选择</th>
 								<th>学生ID</th>
 								<th>学生名</th>
 								<th>操作</th>
@@ -119,8 +119,13 @@ $(document).ready(function(){
 											&nbsp;&nbsp;
 											<a href="${ctx }/question/toUpdateQuestion.do?id=${question.id}">修改</a>
 										</c:if>
-										<c:if test="${question.state eq '1' }">
+										<c:if test="${question.state eq '1'}">
+											<c:if test="${question.live }">
 <!-- 											通过状态可以确认给某1个学生-->
+												<a href="${ctx }/question/confirm.do?id=${question.id}">确认给学生</a>
+												&nbsp;&nbsp;
+											</c:if>
+											<a href="${ctx }/question/showSelectionStudent.do?id=${question.id}">查看选题学生</a>
 										</c:if>
 									</td>
 								</tr>

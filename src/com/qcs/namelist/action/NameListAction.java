@@ -26,24 +26,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.qcs.base.action.BaseAction;
 import com.qcs.base.exception.BusinessException;
+import com.qcs.student.service.StudentService;
 import com.qcs.teacher.service.TeacherService;
 
 @ParentPackage("struts-default")
 @Namespace("/namelist")
 @Results({
-	@Result(name="toImportTeacher",location="/WEB-INF/pages/namelist/importTeacher.jsp")
+	@Result(name="toImportTeacher",location="/WEB-INF/pages/namelist/importTeacher.jsp"),
+	@Result(name="toImportStudent",location="/WEB-INF/pages/namelist/importStudent.jsp")
 })
 @ExceptionMappings( { @ExceptionMapping(exception = "java.lange.RuntimeException", result = "error") }) 
 
 public class NameListAction extends BaseAction {
 
 	public static String TO_IMPORT_TEACHER = "toImportTeacher";
+	public static String TO_IMPORT_STUDENT = "toImportStudent";
+	
 	
 	private File uploadFile;
     private String fileFileName;
     private String fileFileContentType;
     @Autowired
     private TeacherService teacherService;
+    @Autowired
+    private StudentService studentService;
     
     private String info;
     private String err;
@@ -53,6 +59,27 @@ public class NameListAction extends BaseAction {
 	@Action("toImportTeacher")
 	public String toImportTeacher(){
 		return TO_IMPORT_TEACHER;
+	}
+	
+	@Action("toImportStudent")
+	public String toImportStudent(){
+		return TO_IMPORT_STUDENT;
+	}
+	
+	@Action("importStudent")
+	public void importStudent(){
+		if(uploadFile != null){
+			//导入Teacher信息
+			try {
+				studentService.insertStudent(uploadFile);
+			} catch (BusinessException e) {
+				log.info(e);
+				err = e.getMessage();
+			}
+		}
+		if(err == null){
+			info = "导入成功";
+		}
 	}
 	
 	@Action("importTeacher")   
@@ -132,6 +159,14 @@ public class NameListAction extends BaseAction {
 
 	public void setErr(String err) {
 		this.err = err;
+	}
+
+	public StudentService getStudentService() {
+		return studentService;
+	}
+
+	public void setStudentService(StudentService studentService) {
+		this.studentService = studentService;
 	}
 	
 	

@@ -1,4 +1,4 @@
-package com.qcs.choosingTime.pojo;
+package com.qcs.question.pojo;
 
 import java.util.Date;
 
@@ -6,12 +6,16 @@ import java.util.Date;
  *
  * @ClassName: ChoosingTime
  * @author 
- * @date 2013-05-11 11:31:28
+ * @date 2013-05-11 01:50:58
  *
  */
 
 public class ChoosingTime{
 	private Integer id;
+	/**
+	*	名称
+	*/
+	private String name;
 	/**
 	*	选题起始时间
 	*/
@@ -46,6 +50,29 @@ public class ChoosingTime{
 	public void setId(Integer id){
 
 		this.id = id;
+
+	}
+	/**
+	 *
+	 * @Title getName
+	 * @Description 返回name的值
+	 * @return String
+	 */
+	public String getName(){
+
+		return this.name;
+
+	}
+	/**
+	 *
+	 * @Title setName
+	 * @Description 设置name的值
+	 * @param name
+	 * @return void
+	 */
+	public void setName(String name){
+
+		this.name = name;
 
 	}
 	/**
