@@ -3,6 +3,8 @@ package com.qcs.question.dao.impl;
 import com.qcs.question.dao.StudentQuestionDao;
 import com.qcs.question.mapper.StudentQuestionMapper;
 import com.qcs.question.pojo.StudentQuestion;
+import com.qcs.question.service.StudentQuestionService;
+
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -113,5 +115,9 @@ public class StudentQuestionDaoImpl implements StudentQuestionDao{
 
 		this.studentQuestionMapper = studentQuestionMapper;
 
+	}
+	@Override
+	public List<StudentQuestion> queryInComplete() {
+		return this.studentQuestionMapper.queryInComplete();
 	}
 }

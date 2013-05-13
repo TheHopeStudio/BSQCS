@@ -115,4 +115,8 @@ public class ChoosingTimeDaoImpl implements ChoosingTimeDao{
 		this.choosingTimeMapper = choosingTimeMapper;
 
 	}
+	@Override
+	public List<ChoosingTime> queryChoosingTimeInNow() {
+		return this.choosingTimeMapper.queryChoosingTimeInNow();
+	}
 }

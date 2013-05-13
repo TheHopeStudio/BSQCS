@@ -1,6 +1,8 @@
 package com.qcs.question.mapper;
 
 import com.qcs.question.pojo.StudentQuestion;
+import com.qcs.question.service.StudentQuestionService;
+
 import java.util.List;
 
 /**
@@ -48,5 +50,8 @@ public interface StudentQuestionMapper{
 	 * @return List<StudentQuestion>
 	 */
 	public List<StudentQuestion> nestedSelectStudentQuestion(StudentQuestion studentQuestion);
+
+
+	public List<StudentQuestion> queryInComplete();
 
 }

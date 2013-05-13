@@ -62,4 +62,6 @@ public interface ChoosingTimeDao{
 	 */
 	public PaginationResult<ChoosingTime> query(ChoosingTime choosingTime,PaginationInfo pageInfo);
 
+	public List<ChoosingTime> queryChoosingTimeInNow();
+
 }

@@ -26,7 +26,9 @@ import com.qcs.user.service.UserService;
 @Namespace("/studentManager")
 @Results({
 	@Result(name="list",location="/WEB-INF/pages/studentManager/list.jsp"),
-	@Result(name="toStudentList",location="/studentManager/studentList.do",type="redirect")
+	@Result(name="toStudentList",location="/studentManager/studentList.do",type="redirect"),
+	@Result(name="unChooseStudentList",location="/WEB-INF/pages/studentManager/unChooseStudentList.jsp")
+	
 })
 @ExceptionMappings( { @ExceptionMapping(exception = "java.lange.RuntimeException", result = "error") }) 
 
@@ -34,7 +36,7 @@ public class StudentManagerAction extends BaseAction {
 
 	private static String LIST = "list";
 	private static String TO_STUDENT_LIST = "toStudentList";
-	
+	private static String UNCHOOSE_STUDENT_LIST = "unChooseStudentList";
 	
 	@Autowired
 	private StudentService studentService;
@@ -79,7 +81,16 @@ public class StudentManagerAction extends BaseAction {
 		return TO_STUDENT_LIST;
 	}
 	
-	
+	@Action("unChooseStudentList")
+	public String unChooseStudentList(){
+		try {
+			studentList = studentService.queryStudentWhichNoQuestion();
+		} catch (BusinessException e) {
+			log.debug(e);
+			err = "查询失败";
+		}
+		return LIST;
+	}
 	
 	@Action("studentList")
 	public String studentList(){

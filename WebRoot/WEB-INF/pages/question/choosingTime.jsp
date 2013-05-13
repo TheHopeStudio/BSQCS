@@ -132,6 +132,13 @@ $(document).ready(function(){
 	Administry.expandableRows();
 });
 
+function computeResult(){
+	
+	var url = "${ctx}/computeResult/compute.do"
+	window.location = url;
+	
+}
+
 </script>
 </head>
 <body>
@@ -153,11 +160,16 @@ $(document).ready(function(){
 		<div class="wrapper">
 				<!-- Left column/section -->
 				<section class="column width6 first">
-				
 					<form id="newChoosingTimeForm" method="post" action="${ctx }/question/addChoosingTime.do">
 
 						<fieldset>
 							<legend>添加选题时间</legend>
+							<c:if test="${not empty err }">
+							<div class="box box-error">${err }</div>
+							</c:if>
+							<c:if test="${not empty info }">
+							<div class="box box-info">${info }</div>
+							</c:if>
 
 							<p>
 								<label class="required" for="firstname">名称:</label><br/>
@@ -174,7 +186,16 @@ $(document).ready(function(){
 								<input type="text" class="quarter date-pick dp-applied" value="" name="endTime"/><br/>
 							</p>
 							
-							<p class="box"><input type="submit" class="btn btn-green" value="提 交"/> &nbsp; <input type="reset" class="btn" value="清 除"/></p>
+							<p class="box">
+								<input type="submit" class="btn btn-green" value="提 交"/> &nbsp; 
+								<input type="reset" class="btn" value="清 除"/>
+								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+								&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+								<input type="button" onclick="computeResult()" class="btn btn-green" value="计算选题结果(淘汰选题)"/>
+							</p>
 
 						</fieldset>
 

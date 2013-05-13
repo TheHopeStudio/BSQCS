@@ -45,4 +45,10 @@ public class StudentQuestionServiceImpl implements StudentQuestionService {
 		this.studentQuestionDao = studentQuestionDao;
 	}
 
+	@Override
+	public List<StudentQuestion> queryInComplete()
+			throws BusinessException {
+		return this.studentQuestionDao.queryInComplete();
+	}
+
 }

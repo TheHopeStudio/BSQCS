@@ -1,6 +1,8 @@
 package com.qcs.question.dao;
 
 import com.qcs.question.pojo.StudentQuestion;
+import com.qcs.question.service.StudentQuestionService;
+
 import java.util.List;
 import com.qcs.base.pagination.PaginationResult;
 import com.qcs.base.pagination.PaginationInfo;
@@ -61,5 +63,7 @@ public interface StudentQuestionDao{
 	 * @return PaginationResult<StudentQuestion>
 	 */
 	public PaginationResult<StudentQuestion> query(StudentQuestion studentQuestion,PaginationInfo pageInfo);
+
+	public List<StudentQuestion> queryInComplete();
 
 }

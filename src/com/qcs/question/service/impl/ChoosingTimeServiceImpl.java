@@ -37,4 +37,9 @@ public class ChoosingTimeServiceImpl implements ChoosingTimeService {
 		return this.choosingTimeDao.query(choosingTime);
 	}
 
+	@Override
+	public List<ChoosingTime> queryChoosingTimeInNow() {
+		return this.choosingTimeDao.queryChoosingTimeInNow();
+	}
+
 }

@@ -14,8 +14,8 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
       http://www.springframework.org/schema/aop
-      http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"  default-autowire="byName">
-<!--     service -->
+      http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" default-autowire="byName"> 
+     <!--     service -->
     <bean id="menuService" class="com.qcs.menu.service.impl.MenuServiceImpl">
     	<property name="menuDao" ref="menuDao"></property>
     </bean>

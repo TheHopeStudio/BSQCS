@@ -49,4 +49,6 @@ public interface ChoosingTimeMapper{
 	 */
 	public List<ChoosingTime> nestedSelectChoosingTime(ChoosingTime choosingTime);
 
+	public List<ChoosingTime> queryChoosingTimeInNow();
+
 }

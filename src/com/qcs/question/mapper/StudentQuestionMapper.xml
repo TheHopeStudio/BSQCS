@@ -2,6 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.qcs.question.mapper.StudentQuestionMapper">
+
+
+<select id="queryInComplete"  resultMap="studentQuestionNestedResultMap">
+	<![CDATA[
+		select tem.question_id,tem.student_id from (
+		select sq.question_id,sq.student_id ,(si.score1+si.score2+si.score3+si.score4) as totalScore from student_question sq join student_info si on sq.student_id = si.id
+			where sq.question_id in (select q.id from question q where q.live = true)
+			and sq.student_id not in (select distinct q.student_id from question q where q.student_id is not null )
+		) tem
+		order by totalScore desc
+	]]>
+
+
+</select>
+
   <!--嵌套查询(子查询)结果集和子查询-->
   <resultMap id="studentQuestionNestedResultMap" type="StudentQuestion">
     <id property="questionId" column="question_id"/>

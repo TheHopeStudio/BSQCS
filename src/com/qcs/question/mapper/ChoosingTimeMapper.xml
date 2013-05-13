@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.qcs.question.mapper.ChoosingTimeMapper">
+
+	<select id="queryChoosingTimeInNow" resultMap="choosingTimeNestedResultMap">
+		<![CDATA[
+			select ct.id,ct.name,ct.start_time,ct.end_time,ct.state from choosing_time ct 
+			where ct.start_time <= now() and ct.end_time >= now()
+		]]>
+	</select>
+
   <!--嵌套查询(子查询)结果集和子查询-->
   <resultMap id="choosingTimeNestedResultMap" type="ChoosingTime">
     <id property="id" column="id"/>

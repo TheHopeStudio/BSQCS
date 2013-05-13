@@ -14,4 +14,6 @@ public interface ChoosingTimeService {
 	public int update(ChoosingTime choosingTime) throws BusinessException;
 	
 	public List<ChoosingTime> query(ChoosingTime choosingTime) throws BusinessException;
+
+	public List<ChoosingTime> queryChoosingTimeInNow();
 }

@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.qcs.base.action.BaseAction;
 import com.qcs.base.exception.BusinessException;
+import com.qcs.question.pojo.ChoosingTime;
 import com.qcs.question.pojo.Question;
+import com.qcs.question.service.ChoosingTimeService;
 import com.qcs.question.service.QuestionService;
 import com.qcs.user.pojo.User;
 import com.qcs.user.service.UserService;
@@ -49,6 +51,9 @@ public class UserAction extends BaseAction {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private ChoosingTimeService choosingTimeService;
 	
 	@Autowired
 	private QuestionService questionService;
@@ -97,11 +102,25 @@ public class UserAction extends BaseAction {
 					&& StringUtils.isNotBlank(user.getPassword())){
 				user = userService.login(user);
 				if(user != null){
+					
+					//如果是学生。要再选题时间范围内才能登陆
+					if(user.getType().equals("1")){
+						List<ChoosingTime> choosingTimeList = choosingTimeService.queryChoosingTimeInNow();
+						
+						if(choosingTimeList != null && choosingTimeList.size()>0){
+							//再时间范围内
+						}else{
+							request.setAttribute("err", "没发布选题时间。学生不可登陆");
+							return LOGIN_FAIL;
+						}
+						
+					}
 					session.setAttribute("login_user", user);
 					return SUCCESS;
 				}
 			}
 		}
+		
 		request.setAttribute("err", "用户名或密码错误!");
 		return LOGIN_FAIL;
 	}
@@ -173,6 +192,14 @@ public class UserAction extends BaseAction {
 
 	public void setQuestionService(QuestionService questionService) {
 		this.questionService = questionService;
+	}
+
+	public ChoosingTimeService getChoosingTimeService() {
+		return choosingTimeService;
+	}
+
+	public void setChoosingTimeService(ChoosingTimeService choosingTimeService) {
+		this.choosingTimeService = choosingTimeService;
 	}
 	
 }

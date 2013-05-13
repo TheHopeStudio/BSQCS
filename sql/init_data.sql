@@ -2,7 +2,7 @@
 -- Query: SELECT * FROM QCS.menu
 LIMIT 0, 1000
 
--- Date: 2013-05-12 00:37
+-- Date: 2013-05-12 10:28
 */
 INSERT INTO `menu` (`id`,`parent_id`,`seq`,`title`,`uri`,`type`) VALUES (1,'0','11','教师管理','/teacherManager','2');
 INSERT INTO `menu` (`id`,`parent_id`,`seq`,`title`,`uri`,`type`) VALUES (2,'0','22','学生管理','/studentManager','2');
@@ -32,3 +32,4 @@ INSERT INTO `menu` (`id`,`parent_id`,`seq`,`title`,`uri`,`type`) VALUES (28,'3',
 INSERT INTO `menu` (`id`,`parent_id`,`seq`,`title`,`uri`,`type`) VALUES (29,'3','22','选题时间管理','/question/choosingTime.do','2');
 INSERT INTO `menu` (`id`,`parent_id`,`seq`,`title`,`uri`,`type`) VALUES (30,'2','11','查看学生列表','/studentManager/studentList.do','2');
 INSERT INTO `menu` (`id`,`parent_id`,`seq`,`title`,`uri`,`type`) VALUES (31,'3','33','导出选题结果','/question/toExportResult.do','2');
+INSERT INTO `menu` (`id`,`parent_id`,`seq`,`title`,`uri`,`type`) VALUES (32,'2','22','未选题学生列表','/studentManager/unChooseStudentList.do','2');
